@@ -41,22 +41,11 @@ const AdminDashboard = () => {
             const resMsgs = await API.get('/messages');
             if (resMsgs.data?.success) setMessages(resMsgs.data.data);
         } catch (err) {
-            console.error('Error fetching dashboard data, using mock sets...');
-            // Populate dashboard with seeded mock fallback structures
-            setProjects([
-                { _id: '1', title: 'Skyline Residences', type: 'Residential Construction', status: 'completed', budget: '$12.5M', location: 'New York, USA', progress: 100, timeline: '24 Months' },
-                { _id: '2', title: 'Green Valley Complex', type: 'Residential Construction', status: 'ongoing', budget: '$8.2M', location: 'California, USA', progress: 72, timeline: '18 Months' }
-            ]);
-            setJobs([
-                { _id: '1', title: 'Senior Civil Engineer', type: 'Full-time', location: 'New York, NY', salary: '$110,000 - $140,000 / year' },
-                { _id: '2', title: 'Site Safety Officer', type: 'Full-time', location: 'California Office', salary: '$80,000 - $95,000 / year' }
-            ]);
-            setApplications([
-                { _id: '1', userId: { name: 'David Cho', email: 'david@gmail.com' }, jobId: { title: 'Senior Civil Engineer' }, cv: 'https://cv.pdf', status: 'Pending', createdAt: new Date() }
-            ]);
-            setMessages([
-                { _id: '1', name: 'Sarah Connor', email: 'sarah@cyberdyne.com', subject: 'Renovation Quote', message: 'Looking for warehouse structural reinforcement.', status: 'Unread' }
-            ]);
+            console.error('Error fetching dashboard data:', err);
+            setProjects([]);
+            setJobs([]);
+            setApplications([]);
+            setMessages([]);
         } finally {
             setLoading(false);
         }
@@ -80,8 +69,8 @@ const AdminDashboard = () => {
             setProjectForm({ title: '', type: 'Residential Construction', status: 'ongoing', budget: '', location: '', description: '', progress: 0, images: '', timeline: '' });
             fetchDashboardData();
         } catch (e) {
-            // Mock update
-            setProjects([...projects, { _id: Date.now().toString(), ...projectForm, images: [projectForm.images] }]);
+            console.error('Error creating project:', e);
+            alert('Failed to create project. Please try again.');
         }
     };
 
@@ -91,7 +80,8 @@ const AdminDashboard = () => {
                 await API.delete(`/projects/${id}`);
                 fetchDashboardData();
             } catch (e) {
-                setProjects(projects.filter((p) => p._id !== id));
+                console.error('Error deleting project:', e);
+                alert('Failed to delete project. Please try again.');
             }
         }
     };
@@ -105,8 +95,8 @@ const AdminDashboard = () => {
             setJobForm({ title: '', description: '', requirements: '', salary: '', type: 'Full-time', location: 'On-site' });
             fetchDashboardData();
         } catch (e) {
-            // Mock update
-            setJobs([...jobs, { _id: Date.now().toString(), ...jobForm, requirements: [jobForm.requirements] }]);
+            console.error('Error creating job:', e);
+            alert('Failed to create job posting. Please try again.');
         }
     };
 
@@ -116,7 +106,8 @@ const AdminDashboard = () => {
                 await API.delete(`/jobs/${id}`);
                 fetchDashboardData();
             } catch (e) {
-                setJobs(jobs.filter((j) => j._id !== id));
+                console.error('Error deleting job:', e);
+                alert('Failed to delete job posting. Please try again.');
             }
         }
     };
@@ -127,7 +118,8 @@ const AdminDashboard = () => {
             await API.put(`/applications/${appId}`, { status: newStatus });
             fetchDashboardData();
         } catch (e) {
-            setApplications(applications.map((app) => (app._id === appId ? { ...app, status: newStatus } : app)));
+            console.error('Error updating application status:', e);
+            alert('Failed to update application status. Please try again.');
         }
     };
 
@@ -137,7 +129,8 @@ const AdminDashboard = () => {
             await API.put(`/messages/${msgId}`, { status: 'Read' });
             fetchDashboardData();
         } catch (e) {
-            setMessages(messages.map((m) => (m._id === msgId ? { ...m, status: 'Read' } : m)));
+            console.error('Error reading message:', e);
+            alert('Failed to update message status. Please try again.');
         }
     };
 

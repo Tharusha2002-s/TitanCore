@@ -46,14 +46,8 @@ const Home = () => {
                 const resProj = await API.get('/projects');
                 if (resProj.data?.success) setProjects(resProj.data.data);
             } catch (e) {
-                console.log('Using fallback project data');
-                setProjects([
-                    { _id: '1', title: 'Skyline Residences', type: 'Residential Construction', status: 'completed', budget: '$12.5M', location: 'New York, USA', progress: 100, images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800'], timeline: '24 Months' },
-                    { _id: '2', title: 'Green Valley Complex', type: 'Residential Construction', status: 'ongoing', budget: '$8.2M', location: 'California, USA', progress: 72, images: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800'], timeline: '18 Months' },
-                    { _id: '3', title: 'Modern Office Tower', type: 'Commercial Buildings', status: 'completed', budget: '$45.0M', location: 'Texas, USA', progress: 100, images: ['https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800'], timeline: '36 Months' },
-                    { _id: '4', title: 'City Center Mall', type: 'Commercial Buildings', status: 'ongoing', budget: '$22.0M', location: 'Miami, Florida', progress: 65, images: ['https://images.unsplash.com/photo-1555636222-cae831e87094?w=800'], timeline: '20 Months' },
-                    { _id: '5', title: 'Highway Viaduct Bridge', type: 'Road Construction', status: 'ongoing', budget: '$32.0M', location: 'Atlanta, Georgia', progress: 80, images: ['https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800'], timeline: '15 Months' }
-                ]);
+                console.error('Error fetching projects:', e);
+                setProjects([]);
             }
 
             // Workers logic removed
@@ -62,11 +56,8 @@ const Home = () => {
                 const resJobs = await API.get('/jobs');
                 if (resJobs.data?.success) setJobs(resJobs.data.data.slice(0, 2));
             } catch (e) {
-                console.log('Using fallback jobs data');
-                setJobs([
-                    { _id: '1', title: 'Senior Civil Engineer', type: 'Full-time', location: 'New York, NY', salary: '$110k - $140k' },
-                    { _id: '2', title: 'Structural Design Intern', type: 'Internship', location: 'Texas Office', salary: '$28 - $35/hr' }
-                ]);
+                console.error('Error fetching jobs:', e);
+                setJobs([]);
             }
         };
 

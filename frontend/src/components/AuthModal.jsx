@@ -142,9 +142,8 @@ const AuthModal = () => {
                     <div className="absolute inset-0 p-12 flex flex-col justify-between text-white z-10">
                         <div>
                             <div className="flex items-center gap-2">
-                                <div className="w-9 h-9 rounded-lg bg-gold flex items-center justify-center text-white font-black text-lg shadow-md shadow-gold/20">
-                                    T
-                                </div>
+                                <img src="src\assets\logo.png" alt="" className="h-12 w-auto object-contain" />
+
                                 <div>
                                     <span className="font-poppins font-bold tracking-wider block text-sm">TITANCORE</span>
                                     <span className="text-[9px] uppercase font-bold tracking-widest text-gold mt-0.5">Construction</span>
@@ -159,11 +158,7 @@ const AuthModal = () => {
                             <p className="text-xs text-gray-300 font-light leading-relaxed max-w-sm">
                                 Join our premium ecosystem to manage architectural plans, browse luxury residential builds, and trace high-end project budgets.
                             </p>
-                            <div className="flex gap-2 pt-2">
-                                <span className="w-8 h-1 rounded-full bg-gold"></span>
-                                <span className="w-2 h-1 rounded-full bg-white/30"></span>
-                                <span className="w-2 h-1 rounded-full bg-white/30"></span>
-                            </div>
+
                         </div>
                     </div>
                 </div>

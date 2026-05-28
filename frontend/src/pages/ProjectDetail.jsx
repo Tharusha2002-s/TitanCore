@@ -24,17 +24,8 @@ const ProjectDetail = () => {
                     setProject(data.data);
                 }
             } catch (err) {
-                console.error('Error fetching project detail, using fallback...');
-                const fallbacks = [
-                    { _id: '1', title: 'Skyline Residences', type: 'Residential Construction', status: 'completed', budget: '$12.5M', location: 'New York, USA', description: 'A 24-story residential tower offering premium glass facades, modern amenities, and integrated solar cladding for self-sustained energy.', progress: 100, images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1000', 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1000'], timeline: '24 Months' },
-                    { _id: '2', title: 'Green Valley Complex', type: 'Residential Construction', status: 'ongoing', budget: '$8.2M', location: 'California, USA', description: 'A collection of eco-friendly luxury townhouses integrated with smart home IoT networks and localized greywater filtration systems.', progress: 72, images: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000', 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1000'], timeline: '18 Months' },
-                    { _id: '3', title: 'Modern Office Tower', type: 'Commercial Buildings', status: 'completed', budget: '$45.0M', location: 'Texas, USA', description: 'State of the art column-free workspace tower employing high-strength composite steel trusses and LEED platinum HVAC frameworks.', progress: 100, images: ['https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1000', 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1000'], timeline: '36 Months' },
-                    { _id: '4', title: 'City Center Mall', type: 'Commercial Buildings', status: 'ongoing', budget: '$22.0M', location: 'Miami, Florida', description: 'A retail hub hosting over 120 luxury brands, featuring a giant 200m custom glass dome roof and smart geothermal climate control.', progress: 65, images: ['https://images.unsplash.com/photo-1555636222-cae831e87094?w=1000'], timeline: '20 Months' },
-                    { _id: '5', title: 'Highway Viaduct Bridge', type: 'Road Construction', status: 'ongoing', budget: '$32.0M', location: 'Atlanta, Georgia', description: 'An advanced prestressed concrete segmental flyover bridge bridging crucial city transit arteries to reduce peak congestion by 40%.', progress: 80, images: ['https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1000'], timeline: '15 Months' },
-                    { _id: '6', title: 'Steel Fabrication Hub', type: 'Steel Structure Work', status: 'completed', budget: '$14.0M', location: 'Ohio, USA', description: 'High-strength steel framing manufacturing plant containing computerized CNC plasma cutters and advanced girder welders.', progress: 100, images: ['https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?w=1000'], timeline: '10 Months' }
-                ];
-                const match = fallbacks.find((f) => f._id === id) || fallbacks[0];
-                setProject(match);
+                console.error('Error fetching project detail:', err);
+                setProject(null);
             } finally {
                 setLoading(false);
             }
@@ -56,9 +47,8 @@ const ProjectDetail = () => {
             setInquirySubmitted(true);
             setFormData({ name: '', email: '', phone: '', message: '' });
         } catch (err) {
-            console.error(err);
-            // fallback success in case API offline
-            setInquirySubmitted(true);
+            console.error('Error sending inquiry:', err);
+            alert('Failed to send callback request. Please try again.');
         }
     };
 

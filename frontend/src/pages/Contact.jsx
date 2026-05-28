@@ -26,10 +26,8 @@ const Contact = () => {
             setFormData({ name: '', email: '', phone: '', subject: 'General Inquiry', message: '' });
             setTimeout(() => setSubmitted(false), 5000);
         } catch (err) {
-            console.error(err);
-            // Fallback success
-            setSubmitted(true);
-            setFormData({ name: '', email: '', phone: '', subject: 'General Inquiry', message: '' });
+            console.error('Error submitting message:', err);
+            alert('Failed to send query message. Please try again.');
         }
     };
 

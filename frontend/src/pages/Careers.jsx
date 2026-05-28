@@ -28,12 +28,8 @@ const Careers = () => {
                 setJobs(data.data);
             }
         } catch (err) {
-            console.error('Error fetching jobs, loading mock jobs...');
-            setJobs([
-                { _id: '1', title: 'Senior Civil Engineer', description: 'We are seeking an experienced Civil Engineer to lead structural integrity audits and coordinate site execution for complex high-rise projects.', requirements: ['Bachelor’s or Master’s in Civil/Structural Engineering', '8+ years of design-build or field operations experience', 'PE license is highly preferred', 'Proficient with AutoCAD, Revit, and SAP2000'], salary: '$110,000 - $140,000 / year', type: 'Full-time', location: 'New York, NY' },
-                { _id: '2', title: 'Site Safety Officer', description: 'Enforce on-site OSHA regulatory standards, coordinate safety training, and execute weekly hazard mapping reports.', requirements: ['OSHA 30 Certification', '4+ years in commercial construction safety management', 'Strong team leadership and conflict resolution skills'], salary: '$80,000 - $95,000 / year', type: 'Full-time', location: 'California Office' },
-                { _id: '3', title: 'Structural Design Intern', description: 'Undergraduate or graduate internship opportunity to work with senior design engineers on complex steel frames and concrete reinforcements.', requirements: ['Currently pursuing BS/MS in Civil/Structural Engineering (Senior year)', 'Familiarity with structural analysis software packages', 'Duration: 6 Months'], salary: '$28 - $35 / hour', type: 'Internship', location: 'Texas Office' }
-            ]);
+            console.error('Error fetching jobs:', err);
+            setJobs([]);
         }
 
         if (user) {
@@ -81,12 +77,8 @@ const Careers = () => {
                 fetchJobsAndApps(); // Refresh tracking list
             }, 3000);
         } catch (err) {
-            console.error(err);
-            // Fallback success if offline
-            setAppSubmitted(true);
-            setTimeout(() => {
-                setModalOpen(false);
-            }, 3000);
+            console.error('Error submitting application:', err);
+            alert('Failed to submit application. Please try again.');
         }
     };
 
