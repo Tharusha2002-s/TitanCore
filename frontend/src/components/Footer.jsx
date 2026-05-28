@@ -22,9 +22,7 @@ const Footer = () => {
                 {/* Company Info */}
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-lg bg-gold flex items-center justify-center text-white font-bold text-xl shadow-[0_0_15px_rgba(200,155,60,0.2)]">
-                            <Hammer size={20} />
-                        </div>
+                        <img src="src\assets\logo.png" alt="" className="h-12 w-auto object-contain" />
                         <div>
                             <span className="text-xl font-bold tracking-wider text-white block leading-none font-poppins">
                                 TitanCore
@@ -151,11 +149,7 @@ const Footer = () => {
             {/* Copyright */}
             <div className="max-w-7xl mx-auto px-6 border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-neutral-500">
                 <span>© {new Date().getFullYear()} TitanCore Construction. All Rights Reserved.</span>
-                <div className="flex gap-6">
-                    <a href="#" className="hover:text-gold transition-colors">Privacy Policy</a>
-                    <a href="#" className="hover:text-gold transition-colors">Terms of Service</a>
-                    <a href="#" className="hover:text-gold transition-colors">Sitemap</a>
-                </div>
+
             </div>
         </footer>
     );
