@@ -4,6 +4,47 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Play, Star, ChevronLeft, ChevronRight, Award, Shield, Cpu, Clock, CheckCircle2 } from 'lucide-react';
 import API from '../services/api';
 
+const AnimatedCounter = ({ target, suffix = '', duration = 2000 }) => {
+    const [count, setCount] = useState(0);
+    const elementRef = React.useRef(null);
+    const hasAnimated = React.useRef(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !hasAnimated.current) {
+                    hasAnimated.current = true;
+                    let startTimestamp = null;
+                    const step = (timestamp) => {
+                        if (!startTimestamp) startTimestamp = timestamp;
+                        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                        const easeProgress = progress * (2 - progress); // easeOutQuad
+                        setCount(Math.floor(easeProgress * target));
+                        if (progress < 1) {
+                            window.requestAnimationFrame(step);
+                        } else {
+                            setCount(target);
+                        }
+                    };
+                    window.requestAnimationFrame(step);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        if (elementRef.current) {
+            observer.observe(elementRef.current);
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [target, duration]);
+
+    return <span ref={elementRef}>{count}{suffix}</span>;
+};
+
 const Home = () => {
     const [projects, setProjects] = useState([]);
     const [jobs, setJobs] = useState([]);
@@ -12,20 +53,20 @@ const Home = () => {
 
     const heroSlides = [
         {
-            image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1920',
-
+            image: 'src/assets/home/home_1.jpg',
+            backgroundPosition: "center 30%",
             title: 'Building The Future With Strength & Innovation',
             desc: 'Trusted construction company delivering world-class residential and commercial projects.'
         },
         {
-            image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920',
-
+            image: 'src/assets/home/home_2.jpg',
+            backgroundPosition: "center 30%",
             title: 'Precision Design & Structural Mastery',
             desc: 'Delivering landmark commercial office towers and smart urban infrastructures.'
         },
         {
-            image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920',
-
+            image: 'src/assets/home/home_3.jpg',
+            backgroundPosition: "center 30%",
             title: 'Custom Residential Smart Communities',
             desc: 'Creating sustainable, high-end modular smart homes tailored to modern lifestyles.'
         }
@@ -154,19 +195,27 @@ const Home = () => {
                     {/* Quick stats floating in Hero bottom */}
                     <div className="hidden md:grid grid-cols-4 gap-8 border-t border-white/10 w-full max-w-5xl mt-10 pt-8 text-left">
                         <div>
-                            <h3 className="text-3xl font-bold text-gold">25+</h3>
+                            <h3 className="text-3xl font-bold text-gold">
+                                <AnimatedCounter target={25} suffix="+" />
+                            </h3>
                             <p className="text-xs uppercase text-gray-400 tracking-wider mt-1">Years Experience</p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-gold">650+</h3>
+                            <h3 className="text-3xl font-bold text-gold">
+                                <AnimatedCounter target={650} suffix="+" />
+                            </h3>
                             <p className="text-xs uppercase text-gray-400 tracking-wider mt-1">Projects Completed</p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-gold">100%</h3>
+                            <h3 className="text-3xl font-bold text-gold">
+                                <AnimatedCounter target={100} suffix="%" />
+                            </h3>
                             <p className="text-xs uppercase text-gray-400 tracking-wider mt-1">Quality Standards</p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-gold">95%</h3>
+                            <h3 className="text-3xl font-bold text-gold">
+                                <AnimatedCounter target={95} suffix="%" />
+                            </h3>
                             <p className="text-xs uppercase text-gray-400 tracking-wider mt-1">Client Satisfaction</p>
                         </div>
                     </div>
@@ -248,7 +297,9 @@ const Home = () => {
 
                         {/* Experience badge */}
                         <div className="absolute -bottom-6 -left-6 bg-luxury-text text-white p-8 rounded-2xl shadow-2xl flex flex-col items-center justify-center border border-gold/20">
-                            <span className="text-5xl font-bold text-gold block leading-none">25+</span>
+                            <span className="text-5xl font-bold text-gold block leading-none">
+                                <AnimatedCounter target={25} suffix="+" />
+                            </span>
                             <span className="text-[10px] uppercase font-bold tracking-widest text-gray-300 block mt-2 text-center">
                                 Years of<br />Experience
                             </span>

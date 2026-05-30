@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Home as HomeIcon, Building2, Paintbrush, HardHat, ShieldAlert, Compass, Hammer } from 'lucide-react';
+import servicesBg from '../assets/services/services.jpg';
 
 const Services = () => {
     const services = [
@@ -17,7 +18,7 @@ const Services = () => {
         <div className="w-full bg-white text-luxury-text">
 
             {/* Services Header */}
-            <section className="relative pt-36 pb-24 bg-cover bg-center text-white" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600')` }}>
+            <section className="relative pt-46 pb-46 bg-cover bg-center text-white" style={{ backgroundImage: `url(${servicesBg})`, backgroundPosition: "center 0%" }}>
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative max-w-7xl mx-auto px-6 text-center z-10">

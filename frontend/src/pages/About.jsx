@@ -1,6 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Award, Compass, Eye, ShieldCheck, Target, Users } from 'lucide-react';
+import aboutBg from '../assets/about/about.jpg';
+import ceoImg from '../assets/about/CEO Elena Rostova.jpg';
+import elenaImg from '../assets/about/Elena Rostova.jpg';
+import marcusImg from '../assets/about/Marcus Sterling.jpg';
+import danielImg from '../assets/about/Daniel Park.jpg';
 
 const About = () => {
     const timeline = [
@@ -11,16 +16,16 @@ const About = () => {
     ];
 
     const team = [
-        { name: 'Elena Rostova', role: 'CEO & Founder', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300' },
-        { name: 'Marcus Sterling', role: 'Chief Structural Architect', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300' },
-        { name: 'Daniel Park', role: 'Director of Engineering', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300' }
+        { name: 'Elena Rostova', role: 'CEO & Founder', image: elenaImg },
+        { name: 'Marcus Sterling', role: 'Chief Structural Architect', image: marcusImg },
+        { name: 'Daniel Park', role: 'Director of Engineering', image: danielImg }
     ];
 
     return (
         <div className="w-full bg-white text-luxury-text">
 
             {/* Page Header */}
-            <section className="relative pt-36 pb-24 bg-cover bg-center text-white" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1600')` }}>
+            <section className="relative pt-46 pb-46 bg-cover bg-center text-white" style={{ backgroundImage: `url(${aboutBg})` }}>
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
@@ -39,7 +44,7 @@ const About = () => {
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
                         <img
-                            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000"
+                            src={ceoImg}
                             alt="CEO Elena Rostova"
                             className="w-full h-full object-cover"
                         />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, MapPin, DollarSign, Calendar } from 'lucide-react';
 import API from '../services/api';
+import projectBg from '../assets/project/Project.jpg';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
@@ -53,7 +54,7 @@ const Projects = () => {
         <div className="w-full bg-white text-luxury-text min-h-screen">
 
             {/* Portfolio Header */}
-            <section className="relative pt-36 pb-24 bg-cover bg-center text-white" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600')` }}>
+            <section className="relative pt-46 pb-46 bg-cover bg-center text-white" style={{ backgroundImage: `url(${projectBg})`, backgroundPosition: "center 20%" }}>
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative max-w-7xl mx-auto px-6 text-center z-10">

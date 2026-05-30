@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Briefcase, MapPin, DollarSign, Send, CheckCircle2, ShieldCheck, User, X, FileText, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import API from '../services/api';
+import careersBg from '../assets/careers/careers.jpg';
 
 const Careers = () => {
     const [jobs, setJobs] = useState([]);
@@ -86,7 +87,7 @@ const Careers = () => {
         <div className="w-full bg-white text-luxury-text min-h-screen">
 
             {/* Page Header */}
-            <section className="relative pt-36 pb-24 bg-cover bg-center text-white" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600')` }}>
+            <section className="relative pt-46 pb-46 bg-cover bg-center text-white" style={{ backgroundImage: `url(${careersBg})`, backgroundPosition: "center 20%" }}>
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
@@ -197,9 +198,9 @@ const Careers = () => {
                                             <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100 text-[10px]">
                                                 <span className="text-luxury-textMuted">Applied: {new Date(app.createdAt).toLocaleDateString()}</span>
                                                 <span className={`px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${app.status === 'Accepted' ? 'bg-emerald-50 text-emerald-700' :
-                                                        app.status === 'Rejected' ? 'bg-red-50 text-red-700' :
-                                                            app.status === 'Reviewed' ? 'bg-indigo-50 text-indigo-700' :
-                                                                'bg-amber-50 text-amber-700'
+                                                    app.status === 'Rejected' ? 'bg-red-50 text-red-700' :
+                                                        app.status === 'Reviewed' ? 'bg-indigo-50 text-indigo-700' :
+                                                            'bg-amber-50 text-amber-700'
                                                     }`}>
                                                     {app.status}
                                                 </span>

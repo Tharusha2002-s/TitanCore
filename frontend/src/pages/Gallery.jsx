@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, X, ZoomIn } from 'lucide-react';
+import galleryBg from '../assets/gallery/gallery.jpg';
 
 const Gallery = () => {
     const [filter, setFilter] = useState('all');
@@ -11,10 +12,9 @@ const Gallery = () => {
         { id: 2, category: 'commercial', title: 'Corporate Glass Atrium', url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800' },
         { id: 3, category: 'interior', title: 'Bespoke Wooden Dining Lounge', url: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800' },
         { id: 4, category: 'commercial', title: 'Modern Office Tower Exterior', url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800' },
-        { id: 5, category: 'steel', title: 'Industrial Truss Welding', url: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?w=800' },
-        { id: 6, category: 'residential', title: 'Green Valley Smart Townhouse', url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800' },
-        { id: 7, category: 'interior', title: 'Luxury Marble Master Bathroom', url: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800' },
-        { id: 8, category: 'steel', title: 'Erecting Heavy Steel Frame', url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800' }
+        { id: 5, category: 'residential', title: 'Green Valley Smart Townhouse', url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800' },
+        { id: 6, category: 'interior', title: 'Luxury Marble Master Bathroom', url: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800' },
+        { id: 7, category: 'steel', title: 'Erecting Heavy Steel Frame', url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800' }
     ];
 
     const categories = [
@@ -33,7 +33,7 @@ const Gallery = () => {
         <div className="w-full bg-white text-luxury-text min-h-screen">
 
             {/* Gallery Header */}
-            <section className="relative pt-36 pb-24 bg-cover bg-center text-white" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600')` }}>
+            <section className="relative pt-36 pb-24 bg-cover bg-center text-white" style={{ backgroundImage: `url(${galleryBg})`, backgroundPosition: "center 50%" }}>
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
@@ -52,8 +52,8 @@ const Gallery = () => {
                             key={cat.value}
                             onClick={() => setFilter(cat.value)}
                             className={`px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all cursor-pointer ${filter === cat.value
-                                    ? 'bg-gold text-white shadow-md'
-                                    : 'bg-gray-50 hover:bg-gray-100 text-luxury-text'
+                                ? 'bg-gold text-white shadow-md'
+                                : 'bg-gray-50 hover:bg-gray-100 text-luxury-text'
                                 }`}
                         >
                             {cat.label}
