@@ -8,23 +8,27 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Load user data on startup
+    // Load user data on startup — always verify token with server
     useEffect(() => {
         const fetchMe = async () => {
             const storedUser = localStorage.getItem('userInfo');
             if (storedUser) {
                 try {
-                    setUser(JSON.parse(storedUser));
-                    // Refresh user data from server to ensure session validity
+                    const parsed = JSON.parse(storedUser);
+                    // Verify session with backend before trusting localStorage
                     const { data } = await API.get('/auth/me');
                     if (data.success) {
-                        const updatedUser = { ...JSON.parse(storedUser), ...data };
-                        setUser(updatedUser);
-                        localStorage.setItem('userInfo', JSON.stringify(updatedUser));
+                        const verifiedUser = { ...parsed, ...data };
+                        setUser(verifiedUser);
+                        localStorage.setItem('userInfo', JSON.stringify(verifiedUser));
+                    } else {
+                        // Server rejected the session
+                        localStorage.removeItem('userInfo');
+                        setUser(null);
                     }
                 } catch (err) {
                     console.error('Session expired or server unavailable:', err);
-                    // Token expired or invalid
+                    // Token expired or invalid — clear everything
                     localStorage.removeItem('userInfo');
                     setUser(null);
                 }
@@ -46,6 +50,11 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('userInfo', JSON.stringify(data));
                 setLoading(false);
                 return { success: true, user: data };
+            } else {
+                setLoading(false);
+                const msg = data.message || 'Login failed. Please try again.';
+                setError(msg);
+                return { success: false, message: msg };
             }
         } catch (err) {
             setLoading(false);

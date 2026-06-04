@@ -4,8 +4,19 @@ import path from 'path';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Ensure uploads folder exists in backend/uploads
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const router = express.Router();
 
@@ -43,15 +54,16 @@ const upload = multer({
 const uploadToCloudinary = (fileBuffer, fieldName, originalName) => {
     return new Promise((resolve, reject) => {
         const ext = path.extname(originalName).toLowerCase();
-        const isPdf = ext === '.pdf' || ext === '.doc' || ext === '.docx';
+        const isPdf = ext === '.pdf';
+        const isWord = ext === '.doc' || ext === '.docx';
         const folder = fieldName === 'cv' ? 'titancore/cvs' : 'titancore/uploads';
         
-        // Append the file extension to the public_id for raw resource types so the extension is preserved in the URL
-        const publicId = `${fieldName}-${Date.now()}-${Math.round(Math.random() * 1E9)}${isPdf ? ext : ''}`;
+        // Append the file extension to the public_id only for raw resource types (like Word docs)
+        const publicId = `${fieldName}-${Date.now()}-${Math.round(Math.random() * 1E9)}${isWord ? ext : ''}`;
 
         const options = {
             folder,
-            resource_type: isPdf ? 'raw' : 'image',
+            resource_type: isWord ? 'raw' : 'image', // PDFs are uploaded as 'image' in Cloudinary to allow inline viewing
             public_id: publicId
         };
 
@@ -77,14 +89,24 @@ router.post('/', (req, res) => {
         }
 
         try {
-            // Upload all files to Cloudinary in parallel
-            const uploadPromises = req.files.map(file => 
-                uploadToCloudinary(file.buffer, file.fieldname, file.originalname)
-            );
+            // Process files: local save for CVs, Cloudinary for images
+            const uploadPromises = req.files.map(async file => {
+                const ext = path.extname(file.originalname).toLowerCase();
+                const isCv = file.fieldname === 'cv' || ext === '.pdf' || ext === '.doc' || ext === '.docx';
+
+                if (isCv) {
+                    const filename = `cv-${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
+                    const filepath = path.join(uploadDir, filename);
+                    await fs.promises.writeFile(filepath, file.buffer);
+                    return { secure_url: `/uploads/${filename}` };
+                } else {
+                    return uploadToCloudinary(file.buffer, file.fieldname, file.originalname);
+                }
+            });
 
             const results = await Promise.all(uploadPromises);
 
-            // Return secure Cloudinary URLs
+            // Return secure URLs
             if (results.length === 1) {
                 res.json({
                     success: true,
@@ -97,8 +119,8 @@ router.post('/', (req, res) => {
                 });
             }
         } catch (uploadError) {
-            console.error('Cloudinary upload error:', uploadError);
-            res.status(500).json({ success: false, message: `Cloudinary Upload Error: ${uploadError.message}` });
+            console.error('File upload error:', uploadError);
+            res.status(500).json({ success: false, message: `File Upload Error: ${uploadError.message}` });
         }
     });
 });

@@ -68,12 +68,11 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        // Redirect if not admin
-        if (!user || user.role !== 'admin') {
+        if (!user) {
             navigate('/admin/login');
-            return;
+        } else if (user.role === 'admin') {
+            fetchDashboardData();
         }
-        fetchDashboardData();
     }, [user, navigate]);
 
     // Project managers

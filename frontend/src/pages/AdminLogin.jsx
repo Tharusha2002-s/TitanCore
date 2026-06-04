@@ -11,8 +11,18 @@ const AdminLogin = () => {
     const [errMsg, setErrMsg] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { login, user, logout } = useAuth();
+    const { login, user, logout, loading } = useAuth();
     const navigate = useNavigate();
+
+    // Show loading spinner while verifying session on startup
+    if (loading) {
+        return (
+            <div className="w-full min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center gap-4 text-white font-inter">
+                <div className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
+                <span className="text-neutral-400 font-medium text-sm tracking-wider uppercase">Verifying session...</span>
+            </div>
+        );
+    }
 
     // If already logged in as admin, redirect immediately
     useEffect(() => {

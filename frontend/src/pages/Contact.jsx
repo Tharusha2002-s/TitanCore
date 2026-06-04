@@ -94,27 +94,6 @@ const Contact = () => {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Premium Simulated Interactive Map */}
-                        <div className="aspect-[16/9] rounded-2xl overflow-hidden relative shadow-md group">
-                            <img
-                                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800"
-                                alt="Simulated map"
-                                className="w-full h-full object-cover grayscale opacity-75 group-hover:scale-102 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gold/5"></div>
-
-                            {/* Floating Pin */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-                                <div className="relative flex h-3 w-3">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-gold"></span>
-                                </div>
-                                <div className="bg-luxury-text text-white text-[9px] uppercase font-bold tracking-widest px-3 py-1.5 rounded shadow-xl border border-gold/30 mt-2 whitespace-nowrap">
-                                    📍 TitanCore Colombo HQ
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     {/* Right Column: Contact form */}
