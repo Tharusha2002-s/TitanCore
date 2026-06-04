@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Hammer, Mail, Phone, MapPin, Send } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 const Footer = () => {
     const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const Footer = () => {
                 {/* Company Info */}
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-2">
-                        <img src="src\assets\logo.png" alt="" className="h-12 w-auto object-contain" />
+                        <img src={logoImg} alt="" className="h-12 w-auto object-contain" />
                         <div>
                             <span className="text-xl font-bold tracking-wider text-white block leading-none font-poppins">
                                 TitanCore

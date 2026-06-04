@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, MapPin, DollarSign, CheckCircle2, X, FileText, User, Mail } from 'lucide-react';
-import API from '../services/api';
+import API, { getBackendUrl } from '../services/api';
 import careersBg from '../assets/careers/careers.jpg';
 
 const Careers = () => {
@@ -73,7 +73,7 @@ const Careers = () => {
                 const uploadedPath = data.filePath;
                 const finalCvUrl = (uploadedPath.startsWith('http://') || uploadedPath.startsWith('https://'))
                     ? uploadedPath
-                    : (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '') + uploadedPath;
+                    : getBackendUrl() + (uploadedPath.startsWith('/') ? uploadedPath : `/${uploadedPath}`);
                 setFormData((prev) => ({
                     ...prev,
                     cv: finalCvUrl,

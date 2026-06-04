@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play, Star, ChevronLeft, ChevronRight, Award, Shield, Cpu, Clock, CheckCircle2 } from 'lucide-react';
 import API, { getImageUrl } from '../services/api';
+import home1 from '../assets/home/home_1.jpg';
+import home2 from '../assets/home/home_2.jpg';
+import home3 from '../assets/home/home_3.jpg';
+import aboutCompany from '../assets/home/about_company.jpg';
+import residentialConstruction from '../assets/home/Residential_Construction.jpg';
+import commercialBuildings from '../assets/home/Commercial_Buildings.jpg';
+import renovationOverhauls from '../assets/home/Renovation_Overhauls.jpg';
 
 const AnimatedCounter = ({ target, suffix = '', duration = 2000 }) => {
     const [count, setCount] = useState(0);
@@ -53,19 +60,19 @@ const Home = () => {
 
     const heroSlides = [
         {
-            image: 'src/assets/home/home_1.jpg',
+            image: home1,
             backgroundPosition: "center 30%",
             title: 'Building The Future With Strength & Innovation',
             desc: 'Trusted construction company delivering world-class residential and commercial projects.'
         },
         {
-            image: 'src/assets/home/home_2.jpg',
+            image: home2,
             backgroundPosition: "center 30%",
             title: 'Precision Design & Structural Mastery',
             desc: 'Delivering landmark commercial office towers and smart urban infrastructures.'
         },
         {
-            image: 'src/assets/home/home_3.jpg',
+            image: home3,
             backgroundPosition: "center 30%",
             title: 'Custom Residential Smart Communities',
             desc: 'Creating sustainable, high-end modular smart homes tailored to modern lifestyles.'
@@ -289,7 +296,7 @@ const Home = () => {
                     >
                         <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                                src="src\assets\home\about_company.jpg"
+                                src={aboutCompany}
                                 alt="Architectural Blueprint Design"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                             />
@@ -328,9 +335,9 @@ const Home = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
-                            { title: 'Residential Construction', desc: 'Building high-end, customized smart homes, apartments, and residential estates.', image: "src/assets/home/Residential_Construction.jpg" },
-                            { title: 'Commercial Buildings', desc: 'State of the art workspaces, shopping centers, corporate parks, and urban developments.', image: "src/assets/home/Commercial_Buildings.jpg" },
-                            { title: 'Renovation & Overhauls', desc: 'Injecting modern features, structures, and systems to elevate legacy spaces.', image: "src/assets/home/Renovation_Overhauls.jpg" }
+                            { title: 'Residential Construction', desc: 'Building high-end, customized smart homes, apartments, and residential estates.', image: residentialConstruction },
+                            { title: 'Commercial Buildings', desc: 'State of the art workspaces, shopping centers, corporate parks, and urban developments.', image: commercialBuildings },
+                            { title: 'Renovation & Overhauls', desc: 'Injecting modern features, structures, and systems to elevate legacy spaces.', image: renovationOverhauls }
                         ].map((srv, index) => (
                             <motion.div
                                 key={srv.title}

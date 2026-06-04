@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ShieldAlert, Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import adminLoginBg from '../assets/admin/admin_login_bg.png';
+import logoImg from '../assets/logo.png';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
@@ -103,7 +104,7 @@ const AdminLogin = () => {
                         {/* Logo & Headings */}
                         <div className="flex flex-col items-center mb-10 text-center">
                             <Link to="/" className="flex items-center gap-2.5 group mb-6 transition-transform duration-300 hover:scale-[1.02]">
-                                <img src="\src\assets\logo.png" alt="TitanCore Logo" className='w-25' />
+                                <img src={logoImg} alt="TitanCore Logo" className='w-25' />
                                 <div className="text-left">
                                     <span className="text-xl font-bold tracking-wider text-white block leading-none font-poppins">
                                         TITANCORE

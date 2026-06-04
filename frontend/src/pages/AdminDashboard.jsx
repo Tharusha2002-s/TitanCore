@@ -8,6 +8,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import API, { getImageUrl } from '../services/api';
 import adminAvatar from '../assets/admin/avatar.jpg';
+import logoImg from '../assets/logo.png';
 
 const AdminDashboard = () => {
     const { user, logout } = useAuth();
@@ -259,7 +260,7 @@ const AdminDashboard = () => {
             <aside className="w-64 bg-luxury-darkBg text-white shrink-0 hidden md:flex flex-col justify-between p-6 border-r border-white/5">
                 <div className="space-y-8">
                     <div className="flex items-center gap-2 border-b border-white/10 pb-6">
-                        <img src="/src/assets/logo.png" alt="Logo image" className="w-20 h-auto" />
+                        <img src={logoImg} alt="Logo image" className="w-20 h-auto" />
                         <div>
                             <span className="font-bold tracking-wider block text-sm font-poppins">Admin Panel</span>
                             <span className="text-[9px] uppercase font-bold tracking-widest text-gold mt-0.5">TitanCore HQ</span>
