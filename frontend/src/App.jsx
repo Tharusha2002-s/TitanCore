@@ -9,7 +9,6 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import WhatsAppButton from './components/WhatsAppButton';
 import LiveChat from './components/LiveChat';
-import AuthModal from './components/AuthModal';
 import PageTransition from './components/PageTransition';
 
 // Pages
@@ -21,8 +20,6 @@ import ProjectDetail from './pages/ProjectDetail';
 import Careers from './pages/Careers';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
-import Login from './pages/Login';
-import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 
@@ -48,8 +45,6 @@ function AppContent() {
             <Route path="/careers" element={<PageTransition><Careers /></PageTransition>} />
             <Route path="/gallery" element={<PageTransition><Gallery /></PageTransition>} />
             <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
             <Route path="/admin/login" element={<PageTransition><AdminLogin /></PageTransition>} />
             <Route path="/admin/log-in" element={<PageTransition><AdminLogin /></PageTransition>} />
@@ -62,7 +57,6 @@ function AppContent() {
       {/* Floating Actions */}
       {!isAdminPage && <WhatsAppButton />}
       {!isAdminPage && <LiveChat />}
-      <AuthModal />
     </div>
   );
 }

@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Briefcase, MapPin, DollarSign, Send, CheckCircle2, ShieldCheck, User, X, FileText, ChevronRight } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { Briefcase, MapPin, DollarSign, CheckCircle2, X, FileText, User, Mail } from 'lucide-react';
 import API from '../services/api';
 import careersBg from '../assets/careers/careers.jpg';
 
 const Careers = () => {
     const [jobs, setJobs] = useState([]);
-    const [myApplications, setMyApplications] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [appLoading, setAppLoading] = useState(false);
-    const { user, openAuthModal } = useAuth();
     const navigate = useNavigate();
 
     // Application Modal States
@@ -18,11 +14,13 @@ const Careers = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [appSubmitted, setAppSubmitted] = useState(false);
     const [formData, setFormData] = useState({
+        name: '',
+        email: '',
         cv: '',
         coverLetter: '',
     });
 
-    const fetchJobsAndApps = async () => {
+    const fetchJobs = async () => {
         try {
             const { data } = await API.get('/jobs');
             if (data.success) {
@@ -32,42 +30,31 @@ const Careers = () => {
             console.error('Error fetching jobs:', err);
             setJobs([]);
         }
-
-        if (user) {
-            try {
-                setAppLoading(true);
-                const { data } = await API.get('/applications/my');
-                if (data.success) {
-                    setMyApplications(data.data);
-                }
-            } catch (err) {
-                console.error('Error fetching my applications');
-            } finally {
-                setAppLoading(false);
-            }
-        }
-
         setLoading(false);
     };
 
     useEffect(() => {
-        fetchJobsAndApps();
-    }, [user]);
+        fetchJobs();
+    }, []);
 
     const handleApplyClick = (job) => {
-        if (!user) {
-            openAuthModal('login');
-            return;
-        }
         setSelectedJob(job);
         setModalOpen(true);
         setAppSubmitted(false);
+        setFormData({
+            name: '',
+            email: '',
+            cv: '',
+            coverLetter: '',
+        });
     };
 
     const handleAppSubmit = async (e) => {
         e.preventDefault();
         try {
             await API.post('/applications', {
+                applicantName: formData.name,
+                applicantEmail: formData.email,
                 jobId: selectedJob._id,
                 cv: formData.cv || 'https://cloudinary.com/dummy-cv-resume.pdf',
                 coverLetter: formData.coverLetter,
@@ -75,11 +62,11 @@ const Careers = () => {
             setAppSubmitted(true);
             setTimeout(() => {
                 setModalOpen(false);
-                fetchJobsAndApps(); // Refresh tracking list
             }, 3000);
         } catch (err) {
             console.error('Error submitting application:', err);
-            alert('Failed to submit application. Please try again.');
+            const msg = err.response?.data?.message || 'Failed to submit application. Please try again.';
+            alert(msg);
         }
     };
 
@@ -100,118 +87,67 @@ const Careers = () => {
 
             {/* Main Container */}
             <section className="py-16">
-                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div className="max-w-4xl mx-auto px-6 space-y-8">
+                    <h2 className="text-2xl font-bold font-poppins mb-6 text-center">Open Opportunities</h2>
 
-                    {/* Left Columns: Job Listings */}
-                    <div className="lg:col-span-2 space-y-8">
-                        <h2 className="text-2xl font-bold font-poppins mb-6">Open Opportunities</h2>
-
-                        {loading ? (
-                            <div className="flex flex-col items-center justify-center py-16 gap-4">
-                                <div className="w-10 h-10 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
-                                <span className="text-luxury-textMuted text-xs">Scanning active listings...</span>
-                            </div>
-                        ) : jobs.length === 0 ? (
-                            <div className="text-center py-12 border border-dashed border-gray-200 rounded-xl bg-gray-50">
-                                <p className="text-luxury-textMuted text-sm">No career postings listed at this time.</p>
-                            </div>
-                        ) : (
-                            <div className="space-y-6">
-                                {jobs.map((job) => (
-                                    <div
-                                        key={job._id}
-                                        className="bg-white border border-gray-150 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group"
-                                    >
-                                        <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
-                                            <div>
-                                                <span className="bg-gold/10 text-gold text-[10px] uppercase font-bold px-2.5 py-1 rounded">
-                                                    {job.type}
-                                                </span>
-                                                <h3 className="font-bold text-xl mt-2 group-hover:text-gold transition-colors">{job.title}</h3>
-                                            </div>
-
-                                            <div className="flex gap-4 text-xs text-luxury-textMuted">
-                                                <span className="flex items-center gap-1">
-                                                    <MapPin size={14} className="text-gold" /> {job.location}
-                                                </span>
-                                                <span className="flex items-center gap-1 font-semibold text-luxury-text">
-                                                    <DollarSign size={14} className="text-gold" /> {job.salary}
-                                                </span>
-                                            </div>
+                    {loading ? (
+                        <div className="flex flex-col items-center justify-center py-16 gap-4">
+                            <div className="w-10 h-10 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
+                            <span className="text-luxury-textMuted text-xs">Scanning active listings...</span>
+                        </div>
+                    ) : jobs.length === 0 ? (
+                        <div className="text-center py-12 border border-dashed border-gray-200 rounded-xl bg-gray-50">
+                            <p className="text-luxury-textMuted text-sm">No career postings listed at this time.</p>
+                        </div>
+                    ) : (
+                        <div className="space-y-6">
+                            {jobs.map((job) => (
+                                <div
+                                    key={job._id}
+                                    className="bg-white border border-gray-150 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group"
+                                >
+                                    <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
+                                        <div>
+                                            <span className="bg-gold/10 text-gold text-[10px] uppercase font-bold px-2.5 py-1 rounded">
+                                                {job.type}
+                                            </span>
+                                            <h3 className="font-bold text-xl mt-2 group-hover:text-gold transition-colors">{job.title}</h3>
                                         </div>
 
-                                        <p className="text-luxury-textMuted text-sm leading-relaxed mb-4">
-                                            {job.description}
-                                        </p>
-
-                                        {/* Requirements Bullets */}
-                                        <div className="mb-6">
-                                            <span className="text-xs font-semibold text-luxury-text block mb-2 uppercase">Requirements:</span>
-                                            <ul className="list-disc list-inside text-xs text-luxury-textMuted space-y-1">
-                                                {job.requirements.map((req, idx) => (
-                                                    <li key={idx}>{req}</li>
-                                                ))}
-                                            </ul>
+                                        <div className="flex gap-4 text-xs text-luxury-textMuted">
+                                            <span className="flex items-center gap-1">
+                                                <MapPin size={14} className="text-gold" /> {job.location}
+                                            </span>
+                                            <span className="flex items-center gap-1 font-semibold text-luxury-text">
+                                                <DollarSign size={14} className="text-gold" /> {job.salary}
+                                            </span>
                                         </div>
-
-                                        <button
-                                            onClick={() => handleApplyClick(job)}
-                                            className="bg-gold hover:bg-gold-dark text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-lg shadow-sm hover:shadow transition-all cursor-pointer"
-                                        >
-                                            Apply For Position
-                                        </button>
                                     </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
 
-                    {/* Right Column: Application Tracking Panel */}
-                    <div className="space-y-8">
-                        <div className="bg-gray-50 border border-gray-150 p-6 rounded-2xl shadow-sm">
-                            <h3 className="font-bold text-lg mb-4 font-poppins">Application Tracking</h3>
+                                    <p className="text-luxury-textMuted text-sm leading-relaxed mb-4">
+                                        {job.description}
+                                    </p>
 
-                            {!user ? (
-                                <div className="text-center py-6">
-                                    <p className="text-xs text-luxury-textMuted mb-4">Log in to track your job applications and check reviewing outcomes.</p>
+                                    {/* Requirements Bullets */}
+                                    <div className="mb-6">
+                                        <span className="text-xs font-semibold text-luxury-text block mb-2 uppercase">Requirements:</span>
+                                        <ul className="list-disc list-inside text-xs text-luxury-textMuted space-y-1">
+                                            {job.requirements.map((req, idx) => (
+                                                <li key={idx}>{req}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
                                     <button
-                                        onClick={() => openAuthModal('login')}
-                                        className="w-full bg-luxury-text hover:bg-gold text-white font-bold text-xs py-3 rounded-lg border border-gold/15 transition-colors cursor-pointer"
+                                        onClick={() => handleApplyClick(job)}
+                                        className="bg-gold hover:bg-gold-dark text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-lg shadow-sm hover:shadow transition-all cursor-pointer"
                                     >
-                                        Login / Register
+                                        Apply For Position
                                     </button>
                                 </div>
-                            ) : appLoading ? (
-                                <div className="flex items-center justify-center py-6 gap-2">
-                                    <div className="w-5 h-5 border-2 border-gold border-t-transparent rounded-full animate-spin"></div>
-                                    <span className="text-xs text-luxury-textMuted">Syncing applications...</span>
-                                </div>
-                            ) : myApplications.length === 0 ? (
-                                <p className="text-xs text-luxury-textMuted text-center py-6">You haven't submitted any job applications yet.</p>
-                            ) : (
-                                <div className="space-y-4">
-                                    {myApplications.map((app) => (
-                                        <div key={app._id} className="bg-white p-4 border border-gray-200 rounded-xl shadow-xs">
-                                            <h4 className="font-bold text-sm truncate">{app.jobId?.title || 'Position Applied'}</h4>
-                                            <span className="text-[9px] uppercase font-bold text-gold">{app.jobId?.type}</span>
-
-                                            <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100 text-[10px]">
-                                                <span className="text-luxury-textMuted">Applied: {new Date(app.createdAt).toLocaleDateString()}</span>
-                                                <span className={`px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${app.status === 'Accepted' ? 'bg-emerald-50 text-emerald-700' :
-                                                    app.status === 'Rejected' ? 'bg-red-50 text-red-700' :
-                                                        app.status === 'Reviewed' ? 'bg-indigo-50 text-indigo-700' :
-                                                            'bg-amber-50 text-amber-700'
-                                                    }`}>
-                                                    {app.status}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                            ))}
                         </div>
-                    </div>
-
+                    )}
                 </div>
             </section>
 
@@ -241,11 +177,41 @@ const Careers = () => {
                                 <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />
                                 <h4 className="font-bold text-base">Application Submitted</h4>
                                 <p className="text-xs text-emerald-700">
-                                    Your CV and details have been logged in our tracking database. You can inspect updates in the tracking panel.
+                                    Your CV and details have been logged in our database. We will review your application and contact you if there is a match.
                                 </p>
                             </div>
                         ) : (
                             <form onSubmit={handleAppSubmit} className="space-y-4">
+                                <div>
+                                    <label className="block text-xs font-semibold mb-1 text-luxury-textMuted uppercase">Full Name</label>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            required
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            placeholder="e.g. John Doe"
+                                            className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl py-2.5 pl-9 pr-4 text-xs outline-none text-luxury-text"
+                                        />
+                                        <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-semibold mb-1 text-luxury-textMuted uppercase">Email Address</label>
+                                    <div className="relative">
+                                        <input
+                                            type="email"
+                                            required
+                                            value={formData.email}
+                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            placeholder="e.g. john@example.com"
+                                            className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl py-2.5 pl-9 pr-4 text-xs outline-none text-luxury-text"
+                                        />
+                                        <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    </div>
+                                </div>
+
                                 <div>
                                     <label className="block text-xs font-semibold mb-1 text-luxury-textMuted uppercase">Upload CV / Resume Link</label>
                                     <div className="relative">

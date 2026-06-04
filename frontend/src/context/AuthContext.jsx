@@ -8,19 +8,6 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Global Auth Modal States
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-    const [authModalTab, setAuthModalTab] = useState('login');
-
-    const openAuthModal = (tab = 'login') => {
-        setAuthModalTab(tab);
-        setIsAuthModalOpen(true);
-    };
-
-    const closeAuthModal = () => {
-        setIsAuthModalOpen(false);
-    };
-
     // Load user data on startup
     useEffect(() => {
         const fetchMe = async () => {
@@ -68,71 +55,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Register handler
-    const register = async (userData) => {
-        setError(null);
-        setLoading(true);
-        try {
-            const { data } = await API.post('/auth/register', userData);
-            if (data.success) {
-                setUser(data);
-                localStorage.setItem('userInfo', JSON.stringify(data));
-                setLoading(false);
-                return { success: true, user: data };
-            }
-        } catch (err) {
-            setLoading(false);
-            const msg = err.response?.data?.message || 'Registration failed. Please try again.';
-            setError(msg);
-            return { success: false, message: msg };
-        }
-    };
-
-    // Google login handler
-    const loginWithGoogle = async (idToken) => {
-        setError(null);
-        setLoading(true);
-        try {
-            const { data } = await API.post('/auth/google-login', { idToken });
-            if (data.success) {
-                setUser(data);
-                localStorage.setItem('userInfo', JSON.stringify(data));
-                setLoading(false);
-                return { success: true, user: data };
-            }
-        } catch (err) {
-            setLoading(false);
-            const msg = err.response?.data?.message || 'Google login failed. Please try again.';
-            setError(msg);
-            return { success: false, message: msg };
-        }
-    };
-
     // Logout handler
     const logout = () => {
         localStorage.removeItem('userInfo');
         setUser(null);
-    };
-
-    // Update profile details
-    const updateProfile = async (profileData) => {
-        setError(null);
-        setLoading(true);
-        try {
-            const { data } = await API.put('/auth/profile', profileData);
-            if (data.success) {
-                const updatedUser = { ...user, ...data };
-                setUser(updatedUser);
-                localStorage.setItem('userInfo', JSON.stringify(updatedUser));
-                setLoading(false);
-                return { success: true, user: updatedUser };
-            }
-        } catch (err) {
-            setLoading(false);
-            const msg = err.response?.data?.message || 'Failed to update profile.';
-            setError(msg);
-            return { success: false, message: msg };
-        }
     };
 
     return (
@@ -142,16 +68,9 @@ export const AuthProvider = ({ children }) => {
                 loading,
                 error,
                 login,
-                register,
-                loginWithGoogle,
                 logout,
-                updateProfile,
                 isLoggedIn: !!user,
                 isAdmin: user?.role === 'admin',
-                isAuthModalOpen,
-                authModalTab,
-                openAuthModal,
-                closeAuthModal,
             }}
         >
             {children}

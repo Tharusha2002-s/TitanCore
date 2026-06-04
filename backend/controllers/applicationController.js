@@ -6,7 +6,11 @@ import Job from '../models/Job.js';
 // @access  Private
 export const applyForJob = async (req, res) => {
     try {
-        const { jobId, cv, coverLetter } = req.body;
+        const { applicantName, applicantEmail, jobId, cv, coverLetter } = req.body;
+
+        if (!applicantName || !applicantEmail) {
+            return res.status(400).json({ success: false, message: 'Please provide your name and email' });
+        }
 
         // Check if job exists
         const job = await Job.findById(jobId);
@@ -14,14 +18,15 @@ export const applyForJob = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Job posting not found' });
         }
 
-        // Check if user already applied
-        const alreadyApplied = await Application.findOne({ userId: req.user._id, jobId });
+        // Check if user already applied using their email
+        const alreadyApplied = await Application.findOne({ applicantEmail, jobId });
         if (alreadyApplied) {
-            return res.status(400).json({ success: false, message: 'You have already applied for this position' });
+            return res.status(400).json({ success: false, message: 'You have already applied for this position with this email address' });
         }
 
         const application = await Application.create({
-            userId: req.user._id,
+            applicantName,
+            applicantEmail,
             jobId,
             cv, // In production, this would be the Cloudinary or upload URL
             coverLetter: coverLetter || '',

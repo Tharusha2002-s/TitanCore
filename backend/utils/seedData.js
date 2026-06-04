@@ -41,7 +41,7 @@ export const seedDatabase = async () => {
             email: 'admin@buildcon.com',
             password: 'password123',
             role: 'admin',
-            avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150',
+            avatar: '',
         });
 
         console.log('Database seeded successfully with clean accounts and no dummy data!');

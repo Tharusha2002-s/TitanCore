@@ -5,7 +5,15 @@ const applicationSchema = new mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-            required: true,
+            required: false,
+        },
+        applicantName: {
+            type: String,
+            required: [true, 'Please provide your name'],
+        },
+        applicantEmail: {
+            type: String,
+            required: [true, 'Please provide your email'],
         },
         jobId: {
             type: mongoose.Schema.Types.ObjectId,

@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import API from '../services/api';
+import adminAvatar from '../assets/admin/avatar.jpg';
 
 const AdminDashboard = () => {
     const { user, logout } = useAuth();
@@ -150,11 +151,9 @@ const AdminDashboard = () => {
             <aside className="w-64 bg-luxury-darkBg text-white shrink-0 hidden md:flex flex-col justify-between p-6">
                 <div className="space-y-8">
                     <div className="flex items-center gap-2 border-b border-white/10 pb-6">
-                        <div className="w-9 h-9 rounded-lg bg-gold flex items-center justify-center text-white font-bold text-lg">
-                            <ShieldCheck size={18} />
-                        </div>
+                        <img src="./src/assets/logo.png" alt="Logo image" className="w-20 h-auto" />
                         <div>
-                            <span className="font-bold tracking-wider block text-sm">Admin Area</span>
+                            <span className="font-bold tracking-wider block text-sm">Admin Panel</span>
                             <span className="text-[10px] uppercase font-bold tracking-widest text-gold mt-0.5">TitanCore HQ</span>
                         </div>
                     </div>
@@ -171,8 +170,8 @@ const AdminDashboard = () => {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === tab.id
-                                        ? 'bg-gold text-white shadow-lg shadow-gold/10'
-                                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                    ? 'bg-gold text-white shadow-lg shadow-gold/10'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
                                     }`}
                             >
                                 {tab.icon}
@@ -201,7 +200,7 @@ const AdminDashboard = () => {
                         <p className="text-xs text-luxury-textMuted mt-1">Logged in as {user?.name} (Systems Administrator).</p>
                     </div>
 
-                    <img src={user?.avatar || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100'} alt="Admin" className="w-12 h-12 rounded-full border-2 border-gold object-cover shadow-sm" />
+                    <img src={user?.avatar && !user.avatar.includes('unsplash') ? user.avatar : adminAvatar} alt="Admin" className="w-12 h-12 rounded-full border-2 border-gold object-cover shadow-sm" />
                 </div>
 
                 {/* METRICS / MAIN HOME TAB */}
@@ -459,8 +458,8 @@ const AdminDashboard = () => {
                                 {applications.map((app) => (
                                     <tr key={app._id}>
                                         <td className="py-4">
-                                            <div className="font-bold">{app.userId?.name || 'Candidate'}</div>
-                                            <div className="text-[10px] text-luxury-textMuted">{app.userId?.email}</div>
+                                            <div className="font-bold">{app.applicantName || app.userId?.name || 'Candidate'}</div>
+                                            <div className="text-[10px] text-luxury-textMuted">{app.applicantEmail || app.userId?.email}</div>
                                         </td>
                                         <td className="py-4 font-bold text-luxury-text">{app.jobId?.title || 'Open Position'}</td>
                                         <td className="py-4">
@@ -468,9 +467,9 @@ const AdminDashboard = () => {
                                         </td>
                                         <td className="py-4">
                                             <span className={`inline-block px-2 py-0.5 rounded-full font-bold uppercase tracking-wider text-[9px] ${app.status === 'Accepted' ? 'bg-emerald-50 text-emerald-700' :
-                                                    app.status === 'Rejected' ? 'bg-red-50 text-red-700' :
-                                                        app.status === 'Reviewed' ? 'bg-indigo-50 text-indigo-700' :
-                                                            'bg-amber-50 text-amber-700'
+                                                app.status === 'Rejected' ? 'bg-red-50 text-red-700' :
+                                                    app.status === 'Reviewed' ? 'bg-indigo-50 text-indigo-700' :
+                                                        'bg-amber-50 text-amber-700'
                                                 }`}>
                                                 {app.status}
                                             </span>
