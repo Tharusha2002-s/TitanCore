@@ -3,14 +3,19 @@ import axios from 'axios';
 const rawApiURL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const getNormalizedApiUrl = (url) => {
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        if (url.includes('localhost') || url.includes('127.0.0.1')) {
-            return `http://${url}`;
+    let normalized = url;
+    if (!normalized.startsWith('http://') && !normalized.startsWith('https://')) {
+        if (normalized.includes('localhost') || normalized.includes('127.0.0.1')) {
+            normalized = `http://${normalized}`;
         } else {
-            return `https://${url}`;
+            normalized = `https://${normalized}`;
         }
     }
-    return url;
+    // Automatically append /api if it's missing at the end of the URL path
+    if (!normalized.endsWith('/api') && !normalized.endsWith('/api/')) {
+        normalized = normalized.endsWith('/') ? `${normalized}api` : `${normalized}/api`;
+    }
+    return normalized;
 };
 
 const API_URL = getNormalizedApiUrl(rawApiURL);
