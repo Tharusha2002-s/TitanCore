@@ -70,10 +70,13 @@ const Careers = () => {
                 },
             });
             if (data.success) {
-                const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '');
+                const uploadedPath = data.filePath;
+                const finalCvUrl = (uploadedPath.startsWith('http://') || uploadedPath.startsWith('https://'))
+                    ? uploadedPath
+                    : (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '') + uploadedPath;
                 setFormData((prev) => ({
                     ...prev,
-                    cv: baseUrl + data.filePath,
+                    cv: finalCvUrl,
                 }));
             }
         } catch (err) {
@@ -144,14 +147,14 @@ const Careers = () => {
                             {jobs.map((job) => (
                                 <div
                                     key={job._id}
-                                    className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
+                                    className="bg-white rounded-2xl p-6 jetwing-card group relative overflow-hidden"
                                 >
                                     <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
                                         <div>
                                             <span className="bg-gold/10 text-gold text-[10px] uppercase font-bold px-2.5 py-1 rounded">
                                                 {job.type}
                                             </span>
-                                            <h3 className="font-bold text-xl mt-2 group-hover:text-gold transition-colors">{job.title}</h3>
+                                            <h3 className="font-bold text-xl mt-2 jetwing-card-title">{job.title}</h3>
                                         </div>
 
                                         <div className="flex gap-4 text-xs text-luxury-textMuted">

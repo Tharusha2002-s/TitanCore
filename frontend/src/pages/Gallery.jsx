@@ -1,21 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Eye, X, ZoomIn } from 'lucide-react';
+import { Eye, X, ZoomIn, Loader2 } from 'lucide-react';
+import API from '../services/api';
 import galleryBg from '../assets/gallery/gallery.jpg';
 
 const Gallery = () => {
     const [filter, setFilter] = useState('all');
     const [lightboxImg, setLightboxImg] = useState(null);
+    const [galleryItems, setGalleryItems] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const galleryItems = [
-        { id: 1, category: 'residential', title: 'Skyline Residences Penthouse', url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800' },
-        { id: 2, category: 'commercial', title: 'Corporate Glass Atrium', url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800' },
-        { id: 3, category: 'interior', title: 'Bespoke Wooden Dining Lounge', url: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800' },
-        { id: 4, category: 'commercial', title: 'Modern Office Tower Exterior', url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800' },
-        { id: 5, category: 'residential', title: 'Green Valley Smart Townhouse', url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800' },
-        { id: 6, category: 'interior', title: 'Luxury Marble Master Bathroom', url: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800' },
-        { id: 7, category: 'steel', title: 'Erecting Heavy Steel Frame', url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800' }
-    ];
+    useEffect(() => {
+        const fetchGallery = async () => {
+            try {
+                const { data } = await API.get('/gallery');
+                if (data.success) {
+                    setGalleryItems(data.data);
+                }
+            } catch (err) {
+                console.error('Error fetching gallery items:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGallery();
+    }, []);
+
+    const getImageUrl = (url) => {
+        if (!url) return '';
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url;
+        }
+        const backendUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '');
+        return `${backendUrl}${url}`;
+    };
 
     const categories = [
         { value: 'all', label: 'All Showcase' },
@@ -33,7 +52,7 @@ const Gallery = () => {
         <div className="w-full bg-white text-luxury-text min-h-screen">
 
             {/* Gallery Header */}
-            <section className="relative pt-36 pb-24 bg-cover bg-center text-white" style={{ backgroundImage: `url(${galleryBg})`, backgroundPosition: "center 50%" }}>
+            <section className="relative pt-46 pb-46 bg-cover bg-center text-white" style={{ backgroundImage: `url(${galleryBg})`, backgroundPosition: "center 50%" }}>
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
@@ -45,7 +64,7 @@ const Gallery = () => {
             </section>
 
             {/* Filter Menu */}
-            <section className="py-8 bg-white border-b border-gray-100">
+            <section className="py-8 bg-white">
                 <div className="max-w-7xl mx-auto px-6 flex flex-wrap gap-2 justify-center">
                     {categories.map((cat) => (
                         <button
@@ -65,42 +84,53 @@ const Gallery = () => {
             {/* Masonry Image Grid */}
             <section className="py-16">
                 <div className="max-w-7xl mx-auto px-6">
-                    <motion.div
-                        layout
-                        className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8"
-                    >
-                        {filteredItems.map((item) => (
-                            <motion.div
-                                key={item.id}
-                                layout
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.3 }}
-                                className="break-inside-avoid bg-gray-50 rounded-2xl overflow-hidden shadow-md relative group cursor-pointer"
-                                onClick={() => setLightboxImg(item)}
-                            >
-                                <img
-                                    src={item.url}
-                                    alt={item.title}
-                                    className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-103"
-                                />
+                    {loading ? (
+                        <div className="flex flex-col items-center justify-center py-20 gap-4">
+                            <Loader2 className="w-10 h-10 animate-spin text-gold" />
+                            <p className="text-sm text-gray-500 font-medium">Loading gallery showcase...</p>
+                        </div>
+                    ) : filteredItems.length === 0 ? (
+                        <div className="text-center py-20">
+                            <p className="text-gray-500 text-base">No items found in this category.</p>
+                        </div>
+                    ) : (
+                        <motion.div
+                            layout
+                            className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8"
+                        >
+                            {filteredItems.map((item) => (
+                                <motion.div
+                                    key={item._id || item.id}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="break-inside-avoid bg-gray-50 rounded-2xl overflow-hidden shadow-md relative group cursor-pointer"
+                                    onClick={() => setLightboxImg(item)}
+                                >
+                                    <img
+                                        src={getImageUrl(item.url)}
+                                        alt={item.title}
+                                        className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-103"
+                                    />
 
-                                {/* Hover overlay */}
-                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
-                                    <div className="flex justify-end">
-                                        <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm text-white flex items-center justify-center border border-white/10 shadow-sm">
-                                            <ZoomIn size={16} />
+                                    {/* Hover overlay */}
+                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
+                                        <div className="flex justify-end">
+                                            <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm text-white flex items-center justify-center border border-white/10 shadow-sm">
+                                                <ZoomIn size={16} />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span className="text-[10px] uppercase font-bold tracking-widest text-gold">{item.category}</span>
+                                            <h3 className="text-white font-bold text-sm tracking-wide mt-1">{item.title}</h3>
                                         </div>
                                     </div>
-                                    <div>
-                                        <span className="text-[10px] uppercase font-bold tracking-widest text-gold">{item.category}</span>
-                                        <h3 className="text-white font-bold text-sm tracking-wide mt-1">{item.title}</h3>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    )}
                 </div>
             </section>
 
@@ -128,7 +158,7 @@ const Gallery = () => {
                             onClick={(e) => e.stopPropagation()}
                         >
                             <img
-                                src={lightboxImg.url}
+                                src={getImageUrl(lightboxImg.url)}
                                 alt={lightboxImg.title}
                                 className="max-w-full max-h-[80vh] object-contain mx-auto"
                             />

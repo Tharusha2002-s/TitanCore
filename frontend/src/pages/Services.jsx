@@ -42,13 +42,13 @@ const Services = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.05 }}
-                            className="p-8 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                            className="p-8 bg-white rounded-2xl jetwing-card group flex flex-col justify-between"
                         >
                             <div>
                                 <div className="w-14 h-14 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                                     {srv.icon}
                                 </div>
-                                <h3 className="text-xl font-bold text-luxury-text mb-4 group-hover:text-gold transition-colors">
+                                <h3 className="text-xl font-bold text-luxury-text mb-4 jetwing-card-title">
                                     {srv.title}
                                 </h3>
                                 <p className="text-sm text-luxury-textMuted leading-relaxed">
@@ -66,7 +66,7 @@ const Services = () => {
             </section>
 
             {/* Process Section */}
-            <section className="py-24 bg-gray-50 border-t border-gray-150">
+            <section className="py-24 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">Workflow Blueprint</span>
                     <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mt-3 mb-16">
@@ -80,9 +80,9 @@ const Services = () => {
                             { step: '03', title: 'Site Work & Construction', desc: 'Excavation, framing, pouring concrete, erecting steel, and installing core utilities.' },
                             { step: '04', title: 'Inspection & Finishing', desc: 'Conducting electrical/plumbing safety audits, facade detailing, and handover audits.' }
                         ].map((item) => (
-                             <div key={item.step} className="p-6 bg-white rounded-xl relative shadow-md hover:shadow-lg transition-all duration-300">
+                             <div key={item.step} className="p-6 bg-white rounded-xl relative jetwing-card group">
                                 <span className="text-5xl font-bold text-gold/10 absolute top-4 right-4">{item.step}</span>
-                                <h3 className="font-bold text-lg text-luxury-text mb-3">{item.title}</h3>
+                                <h3 className="font-bold text-lg text-luxury-text mb-3 jetwing-card-title">{item.title}</h3>
                                 <p className="text-xs text-luxury-textMuted leading-relaxed">{item.desc}</p>
                             </div>
                         ))}

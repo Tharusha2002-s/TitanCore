@@ -66,7 +66,7 @@ const Projects = () => {
             </section>
 
             {/* Filter and Search Bar */}
-            <section className="py-8 bg-white border-b border-gray-100">
+            <section className="py-8 bg-white">
                 <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-6 justify-between items-center">
                     {/* Search bar */}
                     <div className="relative w-full md:w-80">
@@ -131,13 +131,13 @@ const Projects = () => {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ duration: 0.3 }}
-                                    className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                                    className="bg-white rounded-2xl overflow-hidden jetwing-card group flex flex-col justify-between"
                                 >
                                     <Link to={`/projects/${proj._id}`} className="block relative aspect-[16/10] overflow-hidden group">
                                         <img
                                             src={proj.images[0] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800'}
                                             alt={proj.title}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            className="w-full h-full object-cover img-zoom"
                                         />
                                         <div className={`absolute top-4 right-4 text-white font-bold text-[10px] uppercase tracking-widest px-2.5 py-1 rounded shadow-sm ${proj.status === 'completed' ? 'bg-emerald-500' : 'bg-gold'
                                             }`}>
@@ -149,7 +149,7 @@ const Projects = () => {
                                         <div>
                                             <span className="text-[10px] uppercase font-bold tracking-widest text-gold">{proj.type}</span>
                                             <Link to={`/projects/${proj._id}`} className="block mt-1">
-                                                <h3 className="text-xl font-bold text-luxury-text hover:text-gold transition-colors">{proj.title}</h3>
+                                                <h3 className="text-xl font-bold text-luxury-text jetwing-card-title">{proj.title}</h3>
                                             </Link>
                                             <p className="text-luxury-textMuted text-xs mt-3 leading-relaxed line-clamp-3">
                                                 {proj.description}

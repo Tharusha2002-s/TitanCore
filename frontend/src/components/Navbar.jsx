@@ -48,13 +48,13 @@ const Navbar = () => {
     return (
         <nav
             className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
-                ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-gray-150'
+                ? 'bg-white/95 backdrop-blur-md shadow-md'
                 : 'bg-transparent'
                 }`}
         >
             {/* Top Contact Bar */}
-            <div className={`py-1.5 text-[11px] select-none hidden lg:block border-b transition-colors duration-500 ${
-                isScrolled ? 'border-gray-100 text-neutral-500' : 'border-white/5 text-neutral-400'
+            <div className={`py-1.5 text-[11px] select-none hidden lg:block transition-colors duration-500 ${
+                isScrolled ? 'text-neutral-500' : 'text-neutral-400'
             }`}>
                 <div className="max-w-7xl mx-auto px-6 flex justify-end items-center gap-6">
                     <div className="flex items-center gap-1.5">
@@ -109,7 +109,7 @@ const Navbar = () => {
 
             {/* Mobile Drawer */}
             {isOpen && (
-                <div className="lg:hidden fixed top-[72px] left-0 w-full h-[calc(100vh-72px)] bg-neutral-950/95 backdrop-blur-md z-40 px-6 py-8 flex flex-col gap-6 overflow-y-auto border-t border-white/10">
+                <div className="lg:hidden fixed top-[72px] left-0 w-full h-[calc(100vh-72px)] bg-neutral-950/95 backdrop-blur-md z-40 px-6 py-8 flex flex-col gap-6 overflow-y-auto">
                     <div className="flex flex-col gap-6">
                         {navLinks.map((link) => (
                             <Link

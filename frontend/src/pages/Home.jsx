@@ -193,7 +193,7 @@ const Home = () => {
                     </div>
 
                     {/* Quick stats floating in Hero bottom */}
-                    <div className="hidden md:grid grid-cols-4 gap-8 border-t border-white/10 w-full max-w-5xl mt-10 pt-8 text-left">
+                    <div className="hidden md:grid grid-cols-4 gap-8 w-full max-w-5xl mt-10 pt-8 text-left">
                         <div>
                             <h3 className="text-3xl font-bold text-gold">
                                 <AnimatedCounter target={25} suffix="+" />
@@ -289,7 +289,7 @@ const Home = () => {
                     >
                         <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                                src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1000"
+                                src="src\assets\home\about_company.jpg"
                                 alt="Architectural Blueprint Design"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                             />
@@ -328,9 +328,9 @@ const Home = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
-                            { title: 'Residential Construction', desc: 'Building high-end, customized smart homes, apartments, and residential estates.', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
-                            { title: 'Commercial Buildings', desc: 'State of the art workspaces, shopping centers, corporate parks, and urban developments.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600' },
-                            { title: 'Renovation & Overhauls', desc: 'Injecting modern features, structures, and systems to elevate legacy spaces.', image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600' }
+                            { title: 'Residential Construction', desc: 'Building high-end, customized smart homes, apartments, and residential estates.', image: "src/assets/home/Residential_Construction.jpg" },
+                            { title: 'Commercial Buildings', desc: 'State of the art workspaces, shopping centers, corporate parks, and urban developments.', image: "src/assets/home/Commercial_Buildings.jpg" },
+                            { title: 'Renovation & Overhauls', desc: 'Injecting modern features, structures, and systems to elevate legacy spaces.', image: "src/assets/home/Renovation_Overhauls.jpg" }
                         ].map((srv, index) => (
                             <motion.div
                                 key={srv.title}
@@ -338,20 +338,18 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="bg-white rounded-2xl overflow-hidden shadow-md group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full"
+                                className="bg-white rounded-2xl overflow-hidden jetwing-card group flex flex-col h-full"
                             >
                                 <div className="aspect-[16/10] overflow-hidden relative">
-                                    <img src={srv.image} alt={srv.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <img src={srv.image} alt={srv.title} className="w-full h-full object-cover img-zoom" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                                 </div>
                                 <div className="p-6 flex-1 flex flex-col justify-between">
                                     <div>
-                                        <h3 className="text-xl font-bold mb-3 text-luxury-text group-hover:text-gold transition-colors">{srv.title}</h3>
+                                        <h3 className="text-xl font-bold mb-3 text-luxury-text jetwing-card-title">{srv.title}</h3>
                                         <p className="text-luxury-textMuted text-sm leading-relaxed">{srv.desc}</p>
                                     </div>
-                                    <Link to="/services" className="text-gold font-bold text-xs uppercase tracking-wider mt-6 inline-flex items-center gap-1 hover:gap-2 transition-all">
-                                        Explore Details <ArrowRight size={14} />
-                                    </Link>
+
                                 </div>
                             </motion.div>
                         ))}
@@ -385,13 +383,13 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="bg-white rounded-2xl overflow-hidden shadow-md group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+                                className="bg-white rounded-2xl overflow-hidden jetwing-card group"
                             >
                                 <div className="aspect-[16/10] overflow-hidden relative">
                                     <img
                                         src={proj.images[0] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800'}
                                         alt={proj.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        className="w-full h-full object-cover img-zoom"
                                     />
                                     <div className="absolute top-4 right-4 bg-emerald-500 text-white font-bold text-[10px] uppercase tracking-widest px-2.5 py-1 rounded">
                                         Completed
@@ -399,7 +397,7 @@ const Home = () => {
                                 </div>
                                 <div className="p-6">
                                     <span className="text-xs uppercase tracking-wider text-gold font-semibold">{proj.type}</span>
-                                    <h3 className="text-xl font-bold mt-1 text-luxury-text">{proj.title}</h3>
+                                    <h3 className="text-xl font-bold mt-1 text-luxury-text jetwing-card-title">{proj.title}</h3>
                                     <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-100 text-sm">
                                         <span className="text-luxury-textMuted">{proj.location}</span>
                                         <span className="font-bold text-luxury-text">{proj.budget}</span>
@@ -412,7 +410,7 @@ const Home = () => {
             </section>
 
             {/* 5. ONGOING PROJECTS */}
-            <section className="py-24 bg-gray-50 text-luxury-text border-t border-gray-150">
+            <section className="py-24 bg-gray-50 text-luxury-text">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">Ongoing Works</span>
@@ -432,16 +430,16 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 p-6 flex flex-col md:flex-row gap-6 items-center"
+                                className="bg-white rounded-2xl overflow-hidden jetwing-card group p-6 flex flex-col md:flex-row gap-6 items-center"
                             >
                                 <div className="w-full md:w-2/5 aspect-[4/3] rounded-xl overflow-hidden shrink-0">
-                                    <img src={proj.images[0]} alt={proj.title} className="w-full h-full object-cover" />
+                                    <img src={proj.images[0]} alt={proj.title} className="w-full h-full object-cover img-zoom" />
                                 </div>
                                 <div className="flex-1 w-full">
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <span className="text-xs uppercase tracking-wider text-gold font-semibold">{proj.type}</span>
-                                            <h3 className="text-xl font-bold mt-1">{proj.title}</h3>
+                                            <h3 className="text-xl font-bold mt-1 jetwing-card-title">{proj.title}</h3>
                                         </div>
                                     </div>
                                     <p className="text-luxury-textMuted text-xs mt-3 leading-relaxed line-clamp-2">{proj.description}</p>
@@ -491,12 +489,12 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="p-8 bg-gray-50 hover:bg-white hover:shadow-2xl hover:-translate-y-2 rounded-2xl transition-all duration-300 flex flex-col items-center text-center"
+                                className="p-8 bg-gray-50 hover:bg-white jetwing-card group rounded-2xl flex flex-col items-center text-center"
                             >
                                 <div className="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mb-6">
                                     {adv.icon}
                                 </div>
-                                <h3 className="font-bold text-lg mb-3">{adv.title}</h3>
+                                <h3 className="font-bold text-lg mb-3 jetwing-card-title">{adv.title}</h3>
                                 <p className="text-sm text-luxury-textMuted leading-relaxed">{adv.desc}</p>
                             </motion.div>
                         ))}
@@ -567,7 +565,7 @@ const Home = () => {
             </section>
 
             {/* 10. CAREERS PREVIEW */}
-            <section className="py-24 bg-gray-50 text-luxury-text border-t border-gray-150">
+            <section className="py-24 bg-gray-50 text-luxury-text">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
                         <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">Join Our Team</span>
@@ -593,12 +591,12 @@ const Home = () => {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                                className="p-6 bg-white rounded-xl shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                                className="p-6 bg-white rounded-xl jetwing-card group"
                             >
                                 <span className="bg-gold/10 text-gold text-[10px] uppercase font-bold px-2 py-0.5 rounded">
                                     {job.type}
                                 </span>
-                                <h3 className="font-bold text-lg mt-2 text-luxury-text">{job.title}</h3>
+                                <h3 className="font-bold text-lg mt-2 text-luxury-text jetwing-card-title">{job.title}</h3>
                                 <div className="flex justify-between items-center text-xs text-luxury-textMuted mt-4">
                                     <span>📍 {job.location}</span>
                                     <span className="font-semibold text-luxury-text">{job.salary}</span>
@@ -610,7 +608,7 @@ const Home = () => {
             </section>
 
             {/* 11. CONTACT CTA */}
-            <section className="py-24 bg-white text-luxury-text border-t border-gray-100">
+            <section className="py-24 bg-white text-luxury-text">
                 <div className="max-w-5xl mx-auto px-6">
                     <div className="bg-gray-50 rounded-3xl p-8 sm:p-16 flex flex-col md:flex-row justify-between items-center gap-8 shadow-xl relative overflow-hidden">
                         {/* Background design elements */}

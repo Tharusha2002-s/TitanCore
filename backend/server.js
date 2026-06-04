@@ -14,6 +14,7 @@ import jobRoutes from './routes/jobRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import galleryRoutes from './routes/galleryRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,6 +46,7 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/gallery', galleryRoutes);
 
 // Health check / welcome route
 app.get('/', (req, res) => {

@@ -12,7 +12,7 @@ const About = () => {
         { year: '2001', title: 'Company Founding', desc: 'TitanCore was founded with three builders and a single commercial concrete mixers truck.' },
         { year: '2008', title: 'Expansion to Commercial', desc: 'Acquired state contracts and built our first major ten-story corporate office hub.' },
         { year: '2015', title: 'Sustainable Cladding Launch', desc: 'Pioneered eco-friendly construction models incorporating smart solar facades.' },
-        { year: '2022', title: 'Global Recognition', desc: 'Awarded the LEED Platinum certification for excellence in smart urban design.' }
+        { year: '2026', title: 'Global Recognition', desc: 'Awarded the LEED Platinum certification for excellence in smart urban design.' }
     ];
 
     const team = [
@@ -61,7 +61,6 @@ const About = () => {
                             <h4 className="font-bold text-luxury-text">Elena Rostova</h4>
                             <span className="text-xs text-gold uppercase font-bold tracking-wider">CEO & Founder, TitanCore</span>
                         </div>
-                        <hr className="border-gray-100 my-4" />
                         <p className="text-sm text-luxury-textMuted leading-relaxed">
                             Elena Rostova started TitanCore with a focus on smart design. Today, the firm employs over 480 specialized builders and has successfully completed high-rises, residential communities, and major flyovers.
                         </p>
@@ -70,16 +69,16 @@ const About = () => {
             </section>
 
             {/* Vision & Mission */}
-            <section className="py-24 bg-gray-50 border-t border-b border-gray-150">
+            <section className="py-24 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
 
                     {/* Mission */}
-                    <div className="bg-white p-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex gap-6 items-start">
+                    <div className="bg-white p-8 rounded-2xl jetwing-card group flex gap-6 items-start">
                         <div className="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0">
                             <Target size={24} />
                         </div>
                         <div>
-                            <h3 className="text-xl font-bold mb-3">Our Mission</h3>
+                            <h3 className="text-xl font-bold mb-3 jetwing-card-title">Our Mission</h3>
                             <p className="text-sm text-luxury-textMuted leading-relaxed">
                                 To engineer secure, high-value, and ecological structures using premier materials, satisfying architectural design requests while maintaining zero incidence safety standards.
                             </p>
@@ -87,12 +86,12 @@ const About = () => {
                     </div>
 
                     {/* Vision */}
-                    <div className="bg-white p-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex gap-6 items-start">
+                    <div className="bg-white p-8 rounded-2xl jetwing-card group flex gap-6 items-start">
                         <div className="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0">
                             <Eye size={24} />
                         </div>
                         <div>
-                            <h3 className="text-xl font-bold mb-3">Our Vision</h3>
+                            <h3 className="text-xl font-bold mb-3 jetwing-card-title">Our Vision</h3>
                             <p className="text-sm text-luxury-textMuted leading-relaxed">
                                 To define modern luxury construction globally, leading transitions toward self-powered solar cladded workspaces and smart green housing networks.
                             </p>
@@ -129,7 +128,7 @@ const About = () => {
             </section>
 
             {/* Executive Team */}
-            <section className="py-24 bg-gray-50 border-t border-gray-150">
+            <section className="py-24 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
                         <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">Executive Board</span>
@@ -140,12 +139,12 @@ const About = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {team.map((member) => (
-                            <div key={member.name} className="bg-white rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-all duration-300">
+                            <div key={member.name} className="bg-white rounded-2xl overflow-hidden jetwing-card group">
                                 <div className="aspect-[4/5] overflow-hidden">
-                                    <img src={member.image} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <img src={member.image} alt={member.name} className="w-full h-full object-cover img-zoom" />
                                 </div>
                                 <div className="p-6 text-center">
-                                    <h3 className="font-bold text-lg text-luxury-text">{member.name}</h3>
+                                    <h3 className="font-bold text-lg text-luxury-text jetwing-card-title">{member.name}</h3>
                                     <span className="text-xs uppercase text-gold font-semibold tracking-wider block mt-1">{member.role}</span>
                                 </div>
                             </div>

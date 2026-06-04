@@ -1,7 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { AnimatePresence } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 
 // Components
 import Navbar from './components/Navbar';
@@ -22,6 +23,25 @@ import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
+
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4 bg-gray-50">
+        <Loader2 className="w-12 h-12 animate-spin text-gold" />
+        <span className="text-luxury-textMuted font-medium text-sm font-poppins">Verifying session...</span>
+      </div>
+    );
+  }
+
+  if (!user || user.role !== 'admin') {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  return children;
+};
 
 function AppContent() {
   const location = useLocation();
@@ -45,7 +65,16 @@ function AppContent() {
             <Route path="/careers" element={<PageTransition><Careers /></PageTransition>} />
             <Route path="/gallery" element={<PageTransition><Gallery /></PageTransition>} />
             <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
-            <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+            <Route 
+              path="/admin" 
+              element={
+                <ProtectedRoute>
+                  <PageTransition>
+                    <AdminDashboard />
+                  </PageTransition>
+                </ProtectedRoute>
+              } 
+            />
             <Route path="/admin/login" element={<PageTransition><AdminLogin /></PageTransition>} />
             <Route path="/admin/log-in" element={<PageTransition><AdminLogin /></PageTransition>} />
           </Routes>

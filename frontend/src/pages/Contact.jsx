@@ -35,7 +35,7 @@ const Contact = () => {
         <div className="w-full bg-white text-luxury-text min-h-screen">
 
             {/* Page Header */}
-            <section className="relative pt-56 pb-56 bg-cover bg-center text-white " style={{ backgroundImage: `url(src/assets/contact/contact.jpg)`, backgroundPosition: "center 20%" }}>
+            <section className="relative pt-46 pb-46 bg-cover bg-center text-white " style={{ backgroundImage: `url(src/assets/contact/contact.jpg)`, backgroundPosition: "center 20%" }}>
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative max-w-7xl mx-auto px-6 text-center z-10">

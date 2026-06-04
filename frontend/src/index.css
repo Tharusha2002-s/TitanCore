@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Raleway:wght@300;400;500;600;700;800;900&display=swap');
 
 @import "tailwindcss";
 
@@ -16,8 +16,8 @@
   --color-luxury-darkBg: #111111;
   --color-luxury-darkCard: #1C1C1C;
 
-  --font-poppins: 'Poppins', 'sans-serif';
-  --font-inter: 'Inter', 'sans-serif';
+  --font-playfair: 'Playfair Display', 'serif';
+  --font-raleway: 'Raleway', 'sans-serif';
 }
 
 html {
@@ -25,7 +25,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Raleway', sans-serif;
   background-color: #FFFFFF;
   color: #111111;
   overflow-x: hidden;
@@ -37,7 +37,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Playfair Display', serif;
   font-weight: 700;
 }
 
@@ -117,4 +117,37 @@ h6 {
 
 .animate-slide-up {
   animation: slideUp 0.3s ease-out forwards;
+}
+
+/* Jetwing inspired card styling and hover animations */
+.jetwing-card {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              box-shadow 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01);
+}
+
+.jetwing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(200, 155, 60, 0.08), 0 1px 3px rgba(0, 0, 0, 0.01);
+}
+
+/* Image zoom effect inside the card */
+.jetwing-card .img-zoom {
+  transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.jetwing-card:hover .img-zoom {
+  transform: scale(1.08);
+}
+
+/* Text color transition on hover */
+.jetwing-card-title {
+  transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.jetwing-card:hover .jetwing-card-title {
+  color: #C89B3C; /* gold */
 }
