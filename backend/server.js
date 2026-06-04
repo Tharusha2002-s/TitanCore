@@ -48,10 +48,19 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/gallery', galleryRoutes);
 
-// Health check / welcome route
-app.get('/', (req, res) => {
-    res.json({ message: 'TitanCore API is running' });
-});
+// Serve static frontend files in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+    // Handle SPA routing
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+    });
+} else {
+    // Health check / welcome route
+    app.get('/', (req, res) => {
+        res.json({ message: 'TitanCore API is running' });
+    });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
