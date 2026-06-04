@@ -13,6 +13,8 @@ const Careers = () => {
     const [selectedJob, setSelectedJob] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [appSubmitted, setAppSubmitted] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [fileName, setFileName] = useState('');
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -41,6 +43,8 @@ const Careers = () => {
         setSelectedJob(job);
         setModalOpen(true);
         setAppSubmitted(false);
+        setFileName('');
+        setUploading(false);
         setFormData({
             name: '',
             email: '',
@@ -49,14 +53,50 @@ const Careers = () => {
         });
     };
 
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setFileName(file.name);
+        setUploading(true);
+
+        const fileData = new FormData();
+        fileData.append('cv', file);
+
+        try {
+            const { data } = await API.post('/upload', fileData, {
+                headers: {
+                    'Content-Type': undefined,
+                },
+            });
+            if (data.success) {
+                const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '');
+                setFormData((prev) => ({
+                    ...prev,
+                    cv: baseUrl + data.filePath,
+                }));
+            }
+        } catch (err) {
+            console.error('File upload error:', err);
+            alert(err.response?.data?.message || 'Failed to upload file. Please try again.');
+            setFileName('');
+        } finally {
+            setUploading(false);
+        }
+    };
+
     const handleAppSubmit = async (e) => {
         e.preventDefault();
+        if (!formData.cv) {
+            alert('Please wait for the resume to finish uploading.');
+            return;
+        }
         try {
             await API.post('/applications', {
                 applicantName: formData.name,
                 applicantEmail: formData.email,
                 jobId: selectedJob._id,
-                cv: formData.cv || 'https://cloudinary.com/dummy-cv-resume.pdf',
+                cv: formData.cv,
                 coverLetter: formData.coverLetter,
             });
             setAppSubmitted(true);
@@ -104,7 +144,7 @@ const Careers = () => {
                             {jobs.map((job) => (
                                 <div
                                     key={job._id}
-                                    className="bg-white border border-gray-150 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group"
+                                    className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
                                 >
                                     <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
                                         <div>
@@ -154,7 +194,7 @@ const Careers = () => {
             {/* Application Modal Overlay */}
             {modalOpen && selectedJob && (
                 <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-                    <div className="bg-white border border-gray-150 rounded-2xl w-full max-w-lg shadow-2xl p-6 relative animate-scale-up my-8">
+                    <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl p-6 relative animate-scale-up my-8">
                         <button
                             onClick={() => setModalOpen(false)}
                             className="absolute right-4 top-4 text-luxury-textMuted hover:text-luxury-text transition-colors cursor-pointer"
@@ -213,19 +253,23 @@ const Careers = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold mb-1 text-luxury-textMuted uppercase">Upload CV / Resume Link</label>
+                                    <label className="block text-xs font-semibold mb-1 text-luxury-textMuted uppercase">Upload CV / Resume (PDF, DOC, DOCX)</label>
                                     <div className="relative">
                                         <input
-                                            type="url"
+                                            type="file"
                                             required
-                                            value={formData.cv}
-                                            onChange={(e) => setFormData({ ...formData, cv: e.target.value })}
-                                            placeholder="e.g. https://my-portfolio.com/cv.pdf"
-                                            className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl py-2.5 pl-9 pr-4 text-xs outline-none text-luxury-text"
+                                            accept=".pdf,.doc,.docx"
+                                            onChange={handleFileChange}
+                                            className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl py-2.5 px-4 text-xs outline-none text-luxury-text cursor-pointer"
                                         />
-                                        <FileText size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                                     </div>
-                                    <span className="text-[10px] text-luxury-textMuted block mt-1">Provide a direct link to your PDF CV (Google Drive, Dropbox, Cloudinary).</span>
+                                    {uploading && (
+                                        <span className="text-[10px] text-gold block mt-1 animate-pulse">Uploading resume to server...</span>
+                                    )}
+                                    {!uploading && fileName && (
+                                        <span className="text-[10px] text-emerald-600 block mt-1">✓ File uploaded: {fileName}</span>
+                                    )}
+                                    <span className="text-[10px] text-luxury-textMuted block mt-1">Please select and upload your resume file (max 10MB).</span>
                                 </div>
 
                                 <div>
@@ -250,7 +294,8 @@ const Careers = () => {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="flex-1 bg-gold hover:bg-gold-dark text-white font-bold py-3.5 rounded-xl shadow-md transition-colors text-xs uppercase tracking-wider cursor-pointer"
+                                        disabled={uploading || !formData.cv}
+                                        className="flex-1 bg-gold hover:bg-gold-dark disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl shadow-md transition-colors text-xs uppercase tracking-wider cursor-pointer"
                                     >
                                         Submit Application
                                     </button>

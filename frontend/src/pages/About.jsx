@@ -74,7 +74,7 @@ const About = () => {
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
 
                     {/* Mission */}
-                    <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-150 flex gap-6 items-start">
+                    <div className="bg-white p-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex gap-6 items-start">
                         <div className="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0">
                             <Target size={24} />
                         </div>
@@ -87,7 +87,7 @@ const About = () => {
                     </div>
 
                     {/* Vision */}
-                    <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-150 flex gap-6 items-start">
+                    <div className="bg-white p-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex gap-6 items-start">
                         <div className="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0">
                             <Eye size={24} />
                         </div>
@@ -140,7 +140,7 @@ const About = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {team.map((member) => (
-                            <div key={member.name} className="bg-white border border-gray-150/60 rounded-2xl overflow-hidden shadow-sm group hover:shadow-lg transition-all">
+                            <div key={member.name} className="bg-white rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-all duration-300">
                                 <div className="aspect-[4/5] overflow-hidden">
                                     <img src={member.image} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                 </div>
@@ -157,22 +157,22 @@ const About = () => {
             {/* Awards & Certifications */}
             <section className="py-20 bg-white text-luxury-text">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 items-center text-center">
-                    <div className="flex flex-col items-center gap-2 p-6 border border-gray-100 rounded-xl bg-gray-50/50">
+                    <div className="flex flex-col items-center gap-2 p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300">
                         <Award className="text-gold w-10 h-10" />
                         <h4 className="font-bold text-sm mt-2">LEED Platinum</h4>
                         <span className="text-[10px] text-luxury-textMuted uppercase tracking-wider">Sustainable Design</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2 p-6 border border-gray-100 rounded-xl bg-gray-50/50">
+                    <div className="flex flex-col items-center gap-2 p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300">
                         <Users className="text-gold w-10 h-10" />
                         <h4 className="font-bold text-sm mt-2">OSHA Safety Star</h4>
                         <span className="text-[10px] text-luxury-textMuted uppercase tracking-wider">Site Safety Excellence</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2 p-6 border border-gray-100 rounded-xl bg-gray-50/50">
+                    <div className="flex flex-col items-center gap-2 p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300">
                         <ShieldCheck className="text-gold w-10 h-10" />
                         <h4 className="font-bold text-sm mt-2">ISO 9001:2015</h4>
                         <span className="text-[10px] text-luxury-textMuted uppercase tracking-wider">Quality Audited</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2 p-6 border border-gray-100 rounded-xl bg-gray-50/50">
+                    <div className="flex flex-col items-center gap-2 p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300">
                         <Compass className="text-gold w-10 h-10" />
                         <h4 className="font-bold text-sm mt-2">Green Build Award</h4>
                         <span className="text-[10px] text-luxury-textMuted uppercase tracking-wider">Best Ecological Cladding</span>

@@ -62,7 +62,7 @@ const Contact = () => {
 
                         {/* Core Details Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-                            <div className="flex gap-4 items-start p-5 border border-gray-100 bg-gray-50/50 rounded-xl">
+                            <div className="flex gap-4 items-start p-5 bg-gray-50/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
                                 <MapPin size={22} className="text-gold shrink-0 mt-0.5" />
                                 <div>
                                     <h4 className="font-bold mb-1">Corporate HQ</h4>
@@ -70,7 +70,7 @@ const Contact = () => {
                                 </div>
                             </div>
 
-                            <div className="flex gap-4 items-start p-5 border border-gray-100 bg-gray-50/50 rounded-xl">
+                            <div className="flex gap-4 items-start p-5 bg-gray-50/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
                                 <Clock size={22} className="text-gold shrink-0 mt-0.5" />
                                 <div>
                                     <h4 className="font-bold mb-1">Business Hours</h4>
@@ -78,7 +78,7 @@ const Contact = () => {
                                 </div>
                             </div>
 
-                            <div className="flex gap-4 items-start p-5 border border-gray-100 bg-gray-50/50 rounded-xl">
+                            <div className="flex gap-4 items-start p-5 bg-gray-50/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
                                 <Phone size={22} className="text-gold shrink-0 mt-0.5" />
                                 <div>
                                     <h4 className="font-bold mb-1">Phone Desk</h4>
@@ -86,7 +86,7 @@ const Contact = () => {
                                 </div>
                             </div>
 
-                            <div className="flex gap-4 items-start p-5 border border-gray-100 bg-gray-50/50 rounded-xl">
+                            <div className="flex gap-4 items-start p-5 bg-gray-50/50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
                                 <Mail size={22} className="text-gold shrink-0 mt-0.5" />
                                 <div>
                                     <h4 className="font-bold mb-1">Email Support</h4>
@@ -96,7 +96,7 @@ const Contact = () => {
                         </div>
 
                         {/* Premium Simulated Interactive Map */}
-                        <div className="aspect-[16/9] border border-gray-200 rounded-2xl overflow-hidden relative shadow-md group">
+                        <div className="aspect-[16/9] rounded-2xl overflow-hidden relative shadow-md group">
                             <img
                                 src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800"
                                 alt="Simulated map"
@@ -118,7 +118,7 @@ const Contact = () => {
                     </div>
 
                     {/* Right Column: Contact form */}
-                    <div className="bg-white border border-gray-150 p-8 rounded-2xl shadow-xl flex flex-col justify-center">
+                    <div className="bg-white p-8 rounded-2xl shadow-xl flex flex-col justify-center">
                         <h3 className="font-bold text-2xl mb-2 font-poppins">Send a Message</h3>
                         <p className="text-sm text-luxury-textMuted mb-8 leading-relaxed">
                             Have a project question? Complete our secure communication form to initiate contact.

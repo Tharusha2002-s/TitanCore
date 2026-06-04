@@ -475,6 +475,13 @@ const AdminDashboard = () => {
                                             </span>
                                         </td>
                                         <td className="py-4 text-right space-x-1.5">
+                                            <a
+                                                href={`mailto:${app.applicantEmail || app.userId?.email}?subject=TitanCore Construction - Job Application Update&body=Hi ${app.applicantName || app.userId?.name || 'Candidate'},%0D%0A%0D%0AThank you for applying for the ${app.jobId?.title || 'Open Position'} position at TitanCore Construction.%0D%0A%0D%0A`}
+                                                className="bg-blue-500 hover:bg-blue-600 text-white p-1 rounded transition-colors inline-flex cursor-pointer"
+                                                title="Email Candidate"
+                                            >
+                                                <Mail size={14} />
+                                            </a>
                                             <button onClick={() => handleAppStatusChange(app._id, 'Accepted')} className="bg-emerald-500 hover:bg-emerald-600 text-white p-1 rounded transition-colors inline-flex cursor-pointer" title="Accept Candidate">
                                                 <Check size={14} />
                                             </button>

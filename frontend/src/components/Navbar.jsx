@@ -37,29 +37,34 @@ const Navbar = () => {
 
     const activeLinkStyle = (path) => {
         const isActive = location.pathname === path;
-        return isActive
-            ? 'text-gold border-b-2 border-gold font-bold uppercase tracking-wider text-xs py-1 px-1 transition-all'
-            : 'text-white hover:text-gold luxury-underline font-bold uppercase tracking-wider text-xs py-1 px-1 transition-all';
+        if (isActive) {
+            return 'text-gold border-b-2 border-gold font-bold uppercase tracking-wider text-xs py-1 px-1 transition-all';
+        }
+        return `font-bold uppercase tracking-wider text-xs py-1 px-1 transition-all luxury-underline ${
+            isScrolled ? 'text-neutral-800 hover:text-gold' : 'text-white hover:text-gold'
+        }`;
     };
 
     return (
         <nav
             className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
-                ? 'bg-neutral-950/90 backdrop-blur-md shadow-md border-b border-white/5'
+                ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-gray-150'
                 : 'bg-transparent'
                 }`}
         >
             {/* Top Contact Bar */}
-            <div className="border-b border-white/5 py-1.5 text-[11px] text-neutral-400 select-none hidden lg:block">
+            <div className={`py-1.5 text-[11px] select-none hidden lg:block border-b transition-colors duration-500 ${
+                isScrolled ? 'border-gray-100 text-neutral-500' : 'border-white/5 text-neutral-400'
+            }`}>
                 <div className="max-w-7xl mx-auto px-6 flex justify-end items-center gap-6">
                     <div className="flex items-center gap-1.5">
-                        <span className="text-neutral-500 font-light">Email:</span>
-                        <a href="mailto:sangeetht274@gmail.com" className="text-neutral-300 hover:text-gold transition-colors font-medium">
+                        <span className="text-gold font-medium">Email:</span>
+                        <a href="mailto:sangeetht274@gmail.com" className={`transition-colors font-medium duration-500 ${isScrolled ? 'text-neutral-800 hover:text-gold' : 'text-neutral-300 hover:text-gold'}`}>
                             sangeetht274@gmail.com
                         </a>
                     </div>
-                    <span className="text-neutral-800">|</span>
-                    <a href="tel:+94788788208" className="flex items-center gap-1.5 text-neutral-300 hover:text-gold transition-colors font-medium">
+                    <span className={`transition-colors duration-500 ${isScrolled ? 'text-neutral-200' : 'text-neutral-800'}`}>|</span>
+                    <a href="tel:+94788788208" className={`flex items-center gap-1.5 transition-colors font-medium duration-500 ${isScrolled ? 'text-neutral-800 hover:text-gold' : 'text-neutral-300 hover:text-gold'}`}>
                         <Phone size={11} className="text-gold" />
                         Call Us
                     </a>
@@ -73,7 +78,7 @@ const Navbar = () => {
                 <Link to="/" className="flex items-center gap-3 group">
                     <img src={logoImg} alt="TitanCore Logo" className="h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
                     <div>
-                        <span className="text-xl font-bold tracking-wider text-white block leading-none">
+                        <span className={`text-xl font-bold tracking-wider block leading-none transition-colors duration-500 ${isScrolled ? 'text-neutral-900' : 'text-white'}`}>
                             TitanCore
                         </span>
                         <span className="text-[10px] uppercase font-bold tracking-widest text-gold block mt-0.5">
@@ -94,7 +99,9 @@ const Navbar = () => {
                 {/* Mobile Hamburger */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="lg:hidden text-white/95 hover:text-gold transition-colors"
+                    className={`lg:hidden transition-colors duration-500 ${
+                        isScrolled ? 'text-neutral-800 hover:text-gold' : 'text-white/95 hover:text-gold'
+                    }`}
                 >
                     {isOpen ? <X size={28} /> : <Menu size={28} />}
                 </button>

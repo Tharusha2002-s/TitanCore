@@ -77,7 +77,7 @@ const Gallery = () => {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ duration: 0.3 }}
-                                className="break-inside-avoid bg-gray-50 rounded-2xl overflow-hidden shadow-sm border border-gray-150 relative group cursor-pointer"
+                                className="break-inside-avoid bg-gray-50 rounded-2xl overflow-hidden shadow-md relative group cursor-pointer"
                                 onClick={() => setLightboxImg(item)}
                             >
                                 <img
@@ -124,7 +124,7 @@ const Gallery = () => {
                             initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
                             exit={{ scale: 0.9 }}
-                            className="relative max-w-4xl max-h-[85vh] overflow-hidden rounded-xl border border-white/10"
+                            className="relative max-w-4xl max-h-[85vh] overflow-hidden rounded-xl"
                             onClick={(e) => e.stopPropagation()}
                         >
                             <img

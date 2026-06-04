@@ -42,7 +42,7 @@ const Services = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.05 }}
-                            className="p-8 bg-white border border-gray-150/60 rounded-2xl shadow-sm hover:shadow-xl hover:border-gold/25 transition-all duration-300 flex flex-col justify-between group"
+                            className="p-8 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
                         >
                             <div>
                                 <div className="w-14 h-14 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -80,7 +80,7 @@ const Services = () => {
                             { step: '03', title: 'Site Work & Construction', desc: 'Excavation, framing, pouring concrete, erecting steel, and installing core utilities.' },
                             { step: '04', title: 'Inspection & Finishing', desc: 'Conducting electrical/plumbing safety audits, facade detailing, and handover audits.' }
                         ].map((item) => (
-                            <div key={item.step} className="p-6 bg-white border border-gray-200/60 rounded-xl relative shadow-sm">
+                             <div key={item.step} className="p-6 bg-white rounded-xl relative shadow-md hover:shadow-lg transition-all duration-300">
                                 <span className="text-5xl font-bold text-gold/10 absolute top-4 right-4">{item.step}</span>
                                 <h3 className="font-bold text-lg text-luxury-text mb-3">{item.title}</h3>
                                 <p className="text-xs text-luxury-textMuted leading-relaxed">{item.desc}</p>

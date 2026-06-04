@@ -131,7 +131,7 @@ const Projects = () => {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ duration: 0.3 }}
-                                    className="bg-white border border-gray-150/60 hover:border-gold/20 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                                    className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                                 >
                                     <Link to={`/projects/${proj._id}`} className="block relative aspect-[16/10] overflow-hidden group">
                                         <img

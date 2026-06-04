@@ -134,7 +134,7 @@ const ProjectDetail = () => {
                         )}
 
                         {/* Project Overview */}
-                        <div className="bg-white border border-gray-150 p-8 rounded-2xl shadow-sm">
+                        <div className="bg-white p-8 rounded-2xl shadow-md">
                             <h3 className="text-2xl font-bold tracking-tight mb-4 font-poppins">Project Overview</h3>
                             <p className="text-luxury-textMuted leading-relaxed text-base">
                                 {project.description}
@@ -145,7 +145,7 @@ const ProjectDetail = () => {
                     {/* Right Column: Parameters and Estimation Inquiry */}
                     <div className="space-y-8">
                         {/* Spec Card */}
-                        <div className="bg-gray-50 border border-gray-150 p-6 rounded-2xl shadow-sm space-y-6">
+                        <div className="bg-gray-50 p-6 rounded-2xl shadow-sm space-y-6">
                             <h3 className="font-bold text-lg border-b border-gray-200 pb-3">Project Details</h3>
 
                             <div className="grid grid-cols-2 gap-y-4 text-sm">
@@ -191,7 +191,7 @@ const ProjectDetail = () => {
                         </div>
 
                         {/* Booking Sidebar form */}
-                        <div className="bg-white border border-gray-150 p-6 rounded-2xl shadow-lg">
+                        <div className="bg-white p-6 rounded-2xl shadow-lg">
                             <h3 className="font-bold text-lg mb-2 font-poppins">Request Similar Project</h3>
                             <p className="text-xs text-luxury-textMuted mb-6 leading-relaxed">
                                 Connect with our scheduling desk to design, budget, and estimate a similar project structure.

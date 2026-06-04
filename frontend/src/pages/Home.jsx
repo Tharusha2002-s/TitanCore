@@ -338,7 +338,7 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="bg-white border border-gray-150/60 rounded-2xl overflow-hidden shadow-md group hover:shadow-2xl hover:-translate-y-2 hover:border-gold/20 transition-all duration-300 flex flex-col h-full"
+                                className="bg-white rounded-2xl overflow-hidden shadow-md group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full"
                             >
                                 <div className="aspect-[16/10] overflow-hidden relative">
                                     <img src={srv.image} alt={srv.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -385,7 +385,7 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="bg-white border border-gray-150/60 rounded-2xl overflow-hidden shadow-md group hover:shadow-2xl hover:-translate-y-2 hover:border-gold/20 transition-all duration-300"
+                                className="bg-white rounded-2xl overflow-hidden shadow-md group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
                             >
                                 <div className="aspect-[16/10] overflow-hidden relative">
                                     <img
@@ -432,7 +432,7 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="bg-white border border-gray-150/60 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1.5 hover:border-gold/20 transition-all duration-300 p-6 flex flex-col md:flex-row gap-6 items-center"
+                                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 p-6 flex flex-col md:flex-row gap-6 items-center"
                             >
                                 <div className="w-full md:w-2/5 aspect-[4/3] rounded-xl overflow-hidden shrink-0">
                                     <img src={proj.images[0]} alt={proj.title} className="w-full h-full object-cover" />
@@ -491,7 +491,7 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="p-8 bg-gray-50 hover:bg-white border border-gray-150/60 hover:border-gold/20 hover:shadow-2xl hover:-translate-y-2 rounded-2xl transition-all duration-300 flex flex-col items-center text-center"
+                                className="p-8 bg-gray-50 hover:bg-white hover:shadow-2xl hover:-translate-y-2 rounded-2xl transition-all duration-300 flex flex-col items-center text-center"
                             >
                                 <div className="w-14 h-14 rounded-full bg-gold/10 text-gold flex items-center justify-center mb-6">
                                     {adv.icon}
@@ -536,7 +536,7 @@ const Home = () => {
                         What Our Clients <span className="text-gold">Say</span>
                     </h2>
 
-                    <div className="relative bg-gray-50 border border-gray-150/60 p-8 sm:p-12 rounded-3xl min-h-[250px] flex flex-col justify-center shadow-md">
+                    <div className="relative bg-gray-50 p-8 sm:p-12 rounded-3xl min-h-[250px] flex flex-col justify-center shadow-md">
                         <p className="text-base sm:text-xl text-luxury-text italic leading-relaxed font-light mb-8">
                             "{testimonials[activeTestimonial].quote}"
                         </p>
@@ -593,7 +593,7 @@ const Home = () => {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                                className="p-6 bg-white border border-gray-150/60 rounded-xl shadow-sm hover:shadow-2xl hover:-translate-y-1 hover:border-gold/20 transition-all duration-300"
+                                className="p-6 bg-white rounded-xl shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
                             >
                                 <span className="bg-gold/10 text-gold text-[10px] uppercase font-bold px-2 py-0.5 rounded">
                                     {job.type}
@@ -612,7 +612,7 @@ const Home = () => {
             {/* 11. CONTACT CTA */}
             <section className="py-24 bg-white text-luxury-text border-t border-gray-100">
                 <div className="max-w-5xl mx-auto px-6">
-                    <div className="bg-gray-50 border border-gray-150/60 rounded-3xl p-8 sm:p-16 flex flex-col md:flex-row justify-between items-center gap-8 shadow-xl relative overflow-hidden">
+                    <div className="bg-gray-50 rounded-3xl p-8 sm:p-16 flex flex-col md:flex-row justify-between items-center gap-8 shadow-xl relative overflow-hidden">
                         {/* Background design elements */}
                         <div className="absolute top-0 right-0 w-24 h-24 bg-gold/5 rounded-full blur-2xl"></div>
                         <div className="absolute bottom-0 left-0 w-32 h-32 bg-gold/5 rounded-full blur-2xl"></div>
