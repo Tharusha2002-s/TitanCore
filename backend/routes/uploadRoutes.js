@@ -89,19 +89,9 @@ router.post('/', (req, res) => {
         }
 
         try {
-            // Process files: local save for CVs, Cloudinary for images
+            // Process files: Cloudinary for everything
             const uploadPromises = req.files.map(async file => {
-                const ext = path.extname(file.originalname).toLowerCase();
-                const isCv = file.fieldname === 'cv' || ext === '.pdf' || ext === '.doc' || ext === '.docx';
-
-                if (isCv) {
-                    const filename = `cv-${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
-                    const filepath = path.join(uploadDir, filename);
-                    await fs.promises.writeFile(filepath, file.buffer);
-                    return { secure_url: `/uploads/${filename}` };
-                } else {
-                    return uploadToCloudinary(file.buffer, file.fieldname, file.originalname);
-                }
+                return uploadToCloudinary(file.buffer, file.fieldname, file.originalname);
             });
 
             const results = await Promise.all(uploadPromises);
