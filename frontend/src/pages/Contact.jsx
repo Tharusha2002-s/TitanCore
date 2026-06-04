@@ -118,7 +118,7 @@ const Contact = () => {
                                         required
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        placeholder="e.g. Elena Rostova"
+
                                         className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl px-4 py-3 text-sm outline-none text-luxury-text transition-all"
                                     />
                                 </div>
@@ -131,7 +131,7 @@ const Contact = () => {
                                             required
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            placeholder="e.g. elena@company.com"
+
                                             className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl px-4 py-3 text-sm outline-none text-luxury-text transition-all"
                                         />
                                     </div>
@@ -141,7 +141,7 @@ const Contact = () => {
                                             type="tel"
                                             value={formData.phone}
                                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                            placeholder="e.g. +1 (555) 0123"
+
                                             className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl px-4 py-3 text-sm outline-none text-luxury-text transition-all"
                                         />
                                     </div>
@@ -169,7 +169,7 @@ const Contact = () => {
                                         required
                                         value={formData.message}
                                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                        placeholder="Type details of your request here..."
+
                                         className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl px-4 py-3 text-sm outline-none text-luxury-text resize-none transition-all"
                                     ></textarea>
                                 </div>
@@ -178,7 +178,7 @@ const Contact = () => {
                                     type="submit"
                                     className="w-full bg-gold hover:bg-gold-dark text-white font-bold py-4 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2 cursor-pointer text-xs uppercase tracking-wider"
                                 >
-                                    Send Query Message
+                                    Send Message
                                     <Send size={14} />
                                 </button>
                             </form>

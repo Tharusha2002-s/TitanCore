@@ -14,6 +14,13 @@ const AdminLogin = () => {
     const { login, user, logout, loading } = useAuth();
     const navigate = useNavigate();
 
+    // If already logged in as admin, redirect immediately
+    useEffect(() => {
+        if (user && user.role === 'admin') {
+            navigate('/admin');
+        }
+    }, [user, navigate]);
+
     // Show loading spinner while verifying session on startup
     if (loading) {
         return (
@@ -23,13 +30,6 @@ const AdminLogin = () => {
             </div>
         );
     }
-
-    // If already logged in as admin, redirect immediately
-    useEffect(() => {
-        if (user && user.role === 'admin') {
-            navigate('/admin');
-        }
-    }, [user, navigate]);
 
     const handleAdminSubmit = async (e) => {
         e.preventDefault();

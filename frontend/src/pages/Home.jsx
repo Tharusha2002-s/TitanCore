@@ -385,13 +385,23 @@ const Home = () => {
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 className="bg-white rounded-2xl overflow-hidden jetwing-card group"
                             >
-                                <div className="aspect-[16/10] overflow-hidden relative">
-                                    <img
-                                        src={proj.images[0] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800'}
-                                        alt={proj.title}
-                                        className="w-full h-full object-cover img-zoom"
-                                    />
-                                    <div className="absolute top-4 right-4 bg-emerald-500 text-white font-bold text-[10px] uppercase tracking-widest px-2.5 py-1 rounded">
+                                <div className="aspect-[16/10] overflow-hidden relative bg-neutral-900 flex items-center justify-center">
+                                    {proj.images && proj.images[0] ? (
+                                        <img
+                                            src={proj.images[0]}
+                                            alt={proj.title}
+                                            className="w-full h-full object-cover img-zoom"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-900 text-center p-4 select-none">
+                                            <svg className="w-8 h-8 text-gold/60 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M3 21h18M9 21V10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11M5 21V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v15" />
+                                            </svg>
+                                            <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-gold/80 block">TitanCore Showcase</span>
+                                            <span className="text-[8px] uppercase tracking-widest text-neutral-500 mt-1">Image coming soon</span>
+                                        </div>
+                                    )}
+                                    <div className="absolute top-4 right-4 bg-emerald-500 text-white font-bold text-[10px] uppercase tracking-widest px-2.5 py-1 rounded z-10">
                                         Completed
                                     </div>
                                 </div>
@@ -432,8 +442,18 @@ const Home = () => {
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 className="bg-white rounded-2xl overflow-hidden jetwing-card group p-6 flex flex-col md:flex-row gap-6 items-center"
                             >
-                                <div className="w-full md:w-2/5 aspect-[4/3] rounded-xl overflow-hidden shrink-0">
-                                    <img src={proj.images[0]} alt={proj.title} className="w-full h-full object-cover img-zoom" />
+                                <div className="w-full md:w-2/5 aspect-[4/3] rounded-xl overflow-hidden shrink-0 bg-neutral-900 flex items-center justify-center">
+                                    {proj.images && proj.images[0] ? (
+                                        <img src={proj.images[0]} alt={proj.title} className="w-full h-full object-cover img-zoom" />
+                                    ) : (
+                                        <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-900 text-center p-4 select-none">
+                                            <svg className="w-8 h-8 text-gold/60 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M3 21h18M9 21V10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11M5 21V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v15" />
+                                            </svg>
+                                            <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-gold/80 block">TitanCore Showcase</span>
+                                            <span className="text-[8px] uppercase tracking-widest text-neutral-500 mt-1">Image coming soon</span>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="flex-1 w-full">
                                     <div className="flex justify-between items-start">

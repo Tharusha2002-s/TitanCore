@@ -109,16 +109,26 @@ const ProjectDetail = () => {
                     {/* Left Column: Image Slideshow & Description */}
                     <div className="lg:col-span-2 space-y-8">
                         {/* Main Image */}
-                        <div className="aspect-[16/10] bg-gray-100 rounded-2xl overflow-hidden shadow-md">
-                            <img
-                                src={project.images[activeImage] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1000'}
-                                alt={project.title}
-                                className="w-full h-full object-cover transition-opacity duration-300"
-                            />
+                        <div className="aspect-[16/10] bg-neutral-900 rounded-2xl overflow-hidden shadow-md flex items-center justify-center">
+                            {project.images && project.images.length > 0 && project.images[activeImage] ? (
+                                <img
+                                    src={project.images[activeImage]}
+                                    alt={project.title}
+                                    className="w-full h-full object-cover transition-opacity duration-300"
+                                />
+                            ) : (
+                                <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-900 text-center p-6 select-none">
+                                    <svg className="w-12 h-12 text-gold/60 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M3 21h18M9 21V10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11M5 21V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v15" />
+                                    </svg>
+                                    <span className="text-xs uppercase font-bold tracking-[0.2em] text-gold/80 block">TitanCore Showcase</span>
+                                    <span className="text-[10px] uppercase tracking-widest text-neutral-500 mt-1">Image coming soon</span>
+                                </div>
+                            )}
                         </div>
 
                         {/* Thumbnail selector */}
-                        {project.images.length > 1 && (
+                        {project.images && project.images.length > 1 && (
                             <div className="flex gap-4">
                                 {project.images.map((img, idx) => (
                                     <button

@@ -10,7 +10,7 @@ export const seedDatabase = async () => {
     try {
         // Target admin settings
         const targetAdminName = 'Systems Administrator';
-        const targetAdminEmail = 'admin@buildcon.com';
+        const targetAdminEmail = 'admin@titancore.com';
 
         // Check if seeding is already done
         const adminExists = await User.findOne({ role: 'admin' });
