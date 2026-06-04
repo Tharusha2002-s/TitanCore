@@ -6,7 +6,7 @@ import {
     Image, Loader2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import API from '../services/api';
+import API, { getImageUrl } from '../services/api';
 import adminAvatar from '../assets/admin/avatar.jpg';
 
 const AdminDashboard = () => {
@@ -194,14 +194,6 @@ const AdminDashboard = () => {
         }
     };
 
-    const getImageUrl = (url) => {
-        if (!url) return '';
-        if (url.startsWith('http://') || url.startsWith('https://')) {
-            return url;
-        }
-        const backendUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '');
-        return `${backendUrl}${url}`;
-    };
 
     // Job managers
     const handleJobCreate = async (e) => {

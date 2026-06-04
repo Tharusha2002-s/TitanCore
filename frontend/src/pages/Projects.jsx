@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, MapPin, DollarSign, Calendar } from 'lucide-react';
-import API from '../services/api';
+import API, { getImageUrl } from '../services/api';
 import projectBg from '../assets/project/Project.jpg';
 
 const Projects = () => {
@@ -136,7 +136,7 @@ const Projects = () => {
                                     <Link to={`/projects/${proj._id}`} className="block relative aspect-[16/10] overflow-hidden group bg-neutral-900 flex items-center justify-center">
                                         {proj.images && proj.images[0] ? (
                                             <img
-                                                src={proj.images[0]}
+                                                src={getImageUrl(proj.images[0])}
                                                 alt={proj.title}
                                                 className="w-full h-full object-cover img-zoom"
                                             />

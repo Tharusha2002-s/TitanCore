@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, X, ZoomIn, Loader2 } from 'lucide-react';
-import API from '../services/api';
+import API, { getImageUrl } from '../services/api';
 import galleryBg from '../assets/gallery/gallery.jpg';
 
 const Gallery = () => {
@@ -27,14 +27,6 @@ const Gallery = () => {
         fetchGallery();
     }, []);
 
-    const getImageUrl = (url) => {
-        if (!url) return '';
-        if (url.startsWith('http://') || url.startsWith('https://')) {
-            return url;
-        }
-        const backendUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '');
-        return `${backendUrl}${url}`;
-    };
 
     const categories = [
         { value: 'all', label: 'All Showcase' },

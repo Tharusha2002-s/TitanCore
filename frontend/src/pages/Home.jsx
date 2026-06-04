@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play, Star, ChevronLeft, ChevronRight, Award, Shield, Cpu, Clock, CheckCircle2 } from 'lucide-react';
-import API from '../services/api';
+import API, { getImageUrl } from '../services/api';
 
 const AnimatedCounter = ({ target, suffix = '', duration = 2000 }) => {
     const [count, setCount] = useState(0);
@@ -388,7 +388,7 @@ const Home = () => {
                                 <div className="aspect-[16/10] overflow-hidden relative bg-neutral-900 flex items-center justify-center">
                                     {proj.images && proj.images[0] ? (
                                         <img
-                                            src={proj.images[0]}
+                                            src={getImageUrl(proj.images[0])}
                                             alt={proj.title}
                                             className="w-full h-full object-cover img-zoom"
                                         />
@@ -444,7 +444,7 @@ const Home = () => {
                             >
                                 <div className="w-full md:w-2/5 aspect-[4/3] rounded-xl overflow-hidden shrink-0 bg-neutral-900 flex items-center justify-center">
                                     {proj.images && proj.images[0] ? (
-                                        <img src={proj.images[0]} alt={proj.title} className="w-full h-full object-cover img-zoom" />
+                                        <img src={getImageUrl(proj.images[0])} alt={proj.title} className="w-full h-full object-cover img-zoom" />
                                     ) : (
                                         <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-900 text-center p-4 select-none">
                                             <svg className="w-8 h-8 text-gold/60 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">

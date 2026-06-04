@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin, DollarSign, Calendar, ArrowLeft, Send, CheckCircle2, ChevronRight } from 'lucide-react';
-import API from '../services/api';
+import API, { getImageUrl } from '../services/api';
 
 const ProjectDetail = () => {
     const { id } = useParams();
@@ -112,7 +112,7 @@ const ProjectDetail = () => {
                         <div className="aspect-[16/10] bg-neutral-900 rounded-2xl overflow-hidden shadow-md flex items-center justify-center">
                             {project.images && project.images.length > 0 && project.images[activeImage] ? (
                                 <img
-                                    src={project.images[activeImage]}
+                                    src={getImageUrl(project.images[activeImage])}
                                     alt={project.title}
                                     className="w-full h-full object-cover transition-opacity duration-300"
                                 />
@@ -137,7 +137,7 @@ const ProjectDetail = () => {
                                         className={`w-24 aspect-[16/10] rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${activeImage === idx ? 'border-gold shadow-md' : 'border-transparent opacity-70 hover:opacity-100'
                                             }`}
                                     >
-                                        <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+                                        <img src={getImageUrl(img)} alt="thumbnail" className="w-full h-full object-cover" />
                                     </button>
                                 ))}
                             </div>
