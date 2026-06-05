@@ -981,7 +981,7 @@ const AdminDashboard = () => {
                                         </td>
                                         <td className="py-4 font-bold text-neutral-200">{app.jobId?.title || 'Open Position'}</td>
                                         <td className="py-4">
-                                            <a href={app.cv} target="_blank" rel="noreferrer" className="text-gold font-bold hover:underline font-poppins">View PDF Resume</a>
+                                            <a href={getImageUrl(app.cv)} target="_blank" rel="noreferrer" className="text-gold font-bold hover:underline font-poppins">View PDF Resume</a>
                                         </td>
                                         <td className="py-4">
                                             <span className={`inline-block px-2 py-0.5 rounded-full font-bold uppercase tracking-wider text-[9px] ${
