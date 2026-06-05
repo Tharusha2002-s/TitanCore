@@ -137,7 +137,7 @@ const AdminLogin = () => {
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="admin@titancore.com"
+                                         
                                         className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-2xl py-3.5 pl-11 pr-4 text-xs outline-none text-white transition-all duration-300 font-light"
                                     />
                                     <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within:text-gold transition-colors duration-300" />
@@ -154,7 +154,7 @@ const AdminLogin = () => {
                                         required
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="••••••••"
+                                         
                                         className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-2xl py-3.5 pl-11 pr-12 text-xs outline-none text-white transition-all duration-300 font-light"
                                     />
                                     <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within:text-gold transition-colors duration-300" />

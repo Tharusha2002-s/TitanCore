@@ -233,7 +233,7 @@ const Careers = () => {
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            placeholder="e.g. John Doe"
+                                             
                                             className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl py-2.5 pl-9 pr-4 text-xs outline-none text-luxury-text"
                                         />
                                         <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -248,7 +248,7 @@ const Careers = () => {
                                             required
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            placeholder="e.g. john@example.com"
+                                             
                                             className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl py-2.5 pl-9 pr-4 text-xs outline-none text-luxury-text"
                                         />
                                         <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />

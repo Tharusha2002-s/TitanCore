@@ -222,7 +222,7 @@ const ProjectDetail = () => {
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            placeholder="e.g. John Doe"
+                                             
                                             className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl px-4 py-2.5 text-xs outline-none text-luxury-text"
                                         />
                                     </div>
@@ -233,7 +233,7 @@ const ProjectDetail = () => {
                                             required
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            placeholder="e.g. john@company.com"
+                                             
                                             className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl px-4 py-2.5 text-xs outline-none text-luxury-text"
                                         />
                                     </div>
@@ -244,7 +244,7 @@ const ProjectDetail = () => {
                                             required
                                             value={formData.phone}
                                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                            placeholder="e.g. +1 (555) 0123"
+                                             
                                             className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl px-4 py-2.5 text-xs outline-none text-luxury-text"
                                         />
                                     </div>
@@ -254,7 +254,7 @@ const ProjectDetail = () => {
                                             rows="3"
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                            placeholder="Specify size, location parameters..."
+                                             
                                             className="w-full bg-gray-50 border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold/30 rounded-xl px-4 py-2.5 text-xs outline-none text-luxury-text resize-none"
                                         ></textarea>
                                     </div>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     Users, Hammer, Briefcase, FileText, Mail, Plus, Trash2, Edit3, Check, X,
     TrendingUp, Settings, BarChart2, ShieldCheck, LogOut, CheckCircle2, ChevronRight,
-    Image, Loader2
+    Image, Loader2, Menu
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import API, { getImageUrl } from '../services/api';
@@ -14,6 +14,7 @@ const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('metrics');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
         // Database lists
     const [projects, setProjects] = useState([]);
@@ -254,17 +255,57 @@ const AdminDashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] flex text-white font-inter">
+        <div className="min-h-screen bg-[#0a0a0a] flex flex-col md:flex-row text-white font-inter">
+
+            {/* Mobile Top Navigation Header */}
+            <div className="flex md:hidden items-center justify-between p-4 bg-[#111111] border-b border-white/5 sticky top-0 z-30 w-full shrink-0">
+                <div className="flex items-center gap-3">
+                    <button 
+                        onClick={() => setIsSidebarOpen(true)}
+                        className="p-1.5 text-neutral-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
+                        aria-label="Open menu"
+                    >
+                        <Menu size={20} />
+                    </button>
+                    <div className="flex items-center gap-2">
+                        <img src={logoImg} alt="Logo image" className="w-8 h-auto" />
+                        <div>
+                            <span className="font-bold tracking-wider block text-xs font-poppins">Admin Panel</span>
+                            <span className="text-[8px] uppercase font-bold tracking-widest text-gold mt-0.5">TitanCore HQ</span>
+                        </div>
+                    </div>
+                </div>
+                <img src={user?.avatar && !user.avatar.includes('unsplash') ? user.avatar : adminAvatar} alt="Admin" className="w-8 h-8 rounded-full border border-gold object-cover shadow-sm" />
+            </div>
+
+            {/* Mobile Sidebar Backdrop Overlay */}
+            {isSidebarOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+            )}
 
             {/* Sidebar Navigation */}
-            <aside className="w-64 bg-luxury-darkBg text-white shrink-0 hidden md:flex flex-col justify-between p-6 border-r border-white/5">
+            <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-luxury-darkBg text-white flex flex-col justify-between p-6 border-r border-white/5 transition-transform duration-300 ease-in-out transform 
+                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+                md:relative md:translate-x-0 md:flex shrink-0`}
+            >
                 <div className="space-y-8">
-                    <div className="flex items-center gap-2 border-b border-white/10 pb-6">
-                        <img src={logoImg} alt="Logo image" className="w-20 h-auto" />
-                        <div>
-                            <span className="font-bold tracking-wider block text-sm font-poppins">Admin Panel</span>
-                            <span className="text-[9px] uppercase font-bold tracking-widest text-gold mt-0.5">TitanCore HQ</span>
+                    <div className="flex items-center justify-between border-b border-white/10 pb-6">
+                        <div className="flex items-center gap-2">
+                            <img src={logoImg} alt="Logo image" className="w-16 h-auto" />
+                            <div>
+                                <span className="font-bold tracking-wider block text-sm font-poppins">Admin Panel</span>
+                                <span className="text-[9px] uppercase font-bold tracking-widest text-gold mt-0.5">TitanCore HQ</span>
+                            </div>
                         </div>
+                        <button 
+                            onClick={() => setIsSidebarOpen(false)}
+                            className="p-1.5 md:hidden text-neutral-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
+                        >
+                            <X size={18} />
+                        </button>
                     </div>
 
                     <nav className="flex flex-col gap-2">
@@ -278,7 +319,10 @@ const AdminDashboard = () => {
                         ].map((tab) => (
                             <button
                                 key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
+                                onClick={() => {
+                                    setActiveTab(tab.id);
+                                    setIsSidebarOpen(false);
+                                }}
                                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === tab.id
                                     ? 'bg-gold text-black shadow-lg shadow-gold/10'
                                     : 'text-neutral-400 hover:text-white hover:bg-white/5'
@@ -292,7 +336,10 @@ const AdminDashboard = () => {
                 </div>
 
                 <button
-                    onClick={logout}
+                    onClick={() => {
+                        logout();
+                        setIsSidebarOpen(false);
+                    }}
                     className="flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-semibold uppercase tracking-wider text-red-400 hover:bg-red-500/10 hover:text-red-500 transition-colors w-full cursor-pointer"
                 >
                     <LogOut size={16} />
@@ -301,7 +348,7 @@ const AdminDashboard = () => {
             </aside>
 
             {/* Main Body */}
-            <main className="flex-1 p-6 md:p-10 overflow-y-auto max-w-[calc(100vw-256px)] md:max-w-full">
+            <main className="flex-1 p-6 md:p-10 overflow-y-auto w-full max-w-full md:max-w-[calc(100vw-256px)]">
 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-5">
@@ -317,7 +364,7 @@ const AdminDashboard = () => {
                 {activeTab === 'metrics' && (
                     <div className="space-y-8 animate-fade-in">
                         {/* Summary Cards */}
-                        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                             {[
                                 { title: 'Total Projects', count: projects.length, icon: <Hammer size={18} className="text-gold" />, bg: 'bg-neutral-900/40 border border-white/[0.06] backdrop-blur-md' },
                                 { title: 'Gallery Items', count: galleryItems.length, icon: <Image size={18} className="text-gold" />, bg: 'bg-neutral-900/40 border border-white/[0.06] backdrop-blur-md' },
@@ -378,7 +425,7 @@ const AdminDashboard = () => {
                                     <input type="text" required value={projectForm.title} onChange={(e) => setProjectForm({ ...projectForm, title: e.target.value })} placeholder="e.g. Skyline residences" className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block font-semibold mb-1 text-neutral-400 uppercase tracking-wider">Category Type</label>
                                         <select value={projectForm.type} onChange={(e) => setProjectForm({ ...projectForm, type: e.target.value })} className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-3 py-2.5 outline-none text-white transition-all font-light">
@@ -400,7 +447,7 @@ const AdminDashboard = () => {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block font-semibold mb-1 text-neutral-400 uppercase tracking-wider">Budget Allocated</label>
                                         <input type="text" required value={projectForm.budget} onChange={(e) => setProjectForm({ ...projectForm, budget: e.target.value })} placeholder="e.g. $12.5M" className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" />
@@ -411,7 +458,7 @@ const AdminDashboard = () => {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block font-semibold mb-1 text-neutral-400 uppercase tracking-wider">Location</label>
                                         <input type="text" required value={projectForm.location} onChange={(e) => setProjectForm({ ...projectForm, location: e.target.value })} placeholder="e.g. New York, USA" className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" />
@@ -633,7 +680,7 @@ const AdminDashboard = () => {
                                     <input type="text" required value={jobForm.title} onChange={(e) => setJobForm({ ...jobForm, title: e.target.value })} placeholder="e.g. Senior Civil Engineer" className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block font-semibold mb-1 text-neutral-400 uppercase tracking-wider">Contract Type</label>
                                         <select value={jobForm.type} onChange={(e) => setJobForm({ ...jobForm, type: e.target.value })} className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-3 py-2.5 outline-none text-white transition-all font-light">
