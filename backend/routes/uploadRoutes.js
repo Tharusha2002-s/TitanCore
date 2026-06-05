@@ -54,17 +54,15 @@ const upload = multer({
 const uploadToCloudinary = (fileBuffer, fieldName, originalName) => {
     return new Promise((resolve, reject) => {
         const ext = path.extname(originalName).toLowerCase();
-        const isPdf = ext === '.pdf';
         const isWord = ext === '.doc' || ext === '.docx';
-        const isRaw = isWord || isPdf;
         const folder = fieldName === 'cv' ? 'titancore/cvs' : 'titancore/uploads';
 
-        // Append the file extension to the public_id only for raw resource types (like Word docs and PDFs)
-        const publicId = `${fieldName}-${Date.now()}-${Math.round(Math.random() * 1E9)}${isRaw ? ext : ''}`;
+        // Append the file extension to the public_id only for raw resource types (like Word docs)
+        const publicId = `${fieldName}-${Date.now()}-${Math.round(Math.random() * 1E9)}${isWord ? ext : ''}`;
 
         const options = {
             folder,
-            resource_type: isRaw ? 'raw' : 'image',
+            resource_type: isWord ? 'raw' : 'image', // PDFs are uploaded as 'image' in Cloudinary to allow inline viewing
             public_id: publicId
         };
 
