@@ -34,7 +34,7 @@ const storage = multer.memoryStorage();
 const checkFileType = (file, cb) => {
     const filetypes = /pdf|doc|docx|jpg|jpeg|png|webp/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    
+
     if (extname) {
         return cb(null, true);
     } else {
@@ -57,7 +57,7 @@ const uploadToCloudinary = (fileBuffer, fieldName, originalName) => {
         const isPdf = ext === '.pdf';
         const isWord = ext === '.doc' || ext === '.docx';
         const folder = fieldName === 'cv' ? 'titancore/cvs' : 'titancore/uploads';
-        
+
         // Append the file extension to the public_id only for raw resource types (like Word docs)
         const publicId = `${fieldName}-${Date.now()}-${Math.round(Math.random() * 1E9)}${isWord ? ext : ''}`;
 
