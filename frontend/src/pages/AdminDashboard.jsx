@@ -26,10 +26,19 @@ const AdminDashboard = () => {
 
     // Form states
     const [projectForm, setProjectForm] = useState({
-        title: '', type: 'Residential Construction', status: 'ongoing', budget: '', location: '', description: '', progress: 0, images: '', timeline: ''
+        title: '', type: 'Residential Construction', status: 'ongoing', budget: '', location: '', description: '', progress: '', images: '', timelineValue: '', timelineUnit: 'Months'
+    });
+    
+    // Inline editing states for projects
+    const [editingProjectId, setEditingProjectId] = useState(null);
+    const [editForm, setEditForm] = useState({
+        status: 'ongoing',
+        progress: '',
+        timelineValue: '',
+        timelineUnit: 'Months'
     });
     const [jobForm, setJobForm] = useState({
-        title: '', description: '', requirements: '', salary: '', type: 'Full-time', location: 'On-site'
+        title: '', description: '', requirements: '', salaryMin: '', salaryMax: '', salaryPeriod: 'year', type: 'Full-time', location: 'On-site'
     });
 
     const [uploadingProjImages, setUploadingProjImages] = useState(false);
@@ -82,13 +91,63 @@ const AdminDashboard = () => {
         e.preventDefault();
         try {
             const imgArray = projectForm.images ? projectForm.images.split(',').map((img) => img.trim()) : [];
-            await API.post('/projects', { ...projectForm, images: imgArray });
-            setProjectForm({ title: '', type: 'Residential Construction', status: 'ongoing', budget: '', location: '', description: '', progress: 0, images: '', timeline: '' });
+            const payload = {
+                title: projectForm.title,
+                type: projectForm.type,
+                status: projectForm.status,
+                budget: `$${projectForm.budget}M`,
+                location: projectForm.location,
+                description: projectForm.description,
+                progress: projectForm.progress === '' ? 0 : Number(projectForm.progress),
+                images: imgArray,
+                timeline: `${projectForm.timelineValue} ${projectForm.timelineUnit}`
+            };
+            await API.post('/projects', payload);
+            setProjectForm({ title: '', type: 'Residential Construction', status: 'ongoing', budget: '', location: '', description: '', progress: '', images: '', timelineValue: '', timelineUnit: 'Months' });
             setProjectImagePreviews([]);
             fetchDashboardData();
         } catch (e) {
             console.error('Error creating project:', e);
             alert('Failed to create project. Please try again.');
+        }
+    };
+
+    const handleStartEdit = (proj) => {
+        setEditingProjectId(proj._id);
+        
+        let val = '';
+        let unit = 'Months';
+        if (proj.timeline) {
+            const parts = proj.timeline.split(' ');
+            if (parts.length >= 2) {
+                val = parts[0];
+                unit = parts[1];
+            } else {
+                val = proj.timeline;
+            }
+        }
+        
+        setEditForm({
+            status: proj.status,
+            progress: proj.progress,
+            timelineValue: val,
+            timelineUnit: unit
+        });
+    };
+
+    const handleInlineSave = async (id) => {
+        try {
+            const payload = {
+                status: editForm.status,
+                progress: editForm.progress === '' ? 0 : Number(editForm.progress),
+                timeline: `${editForm.timelineValue} ${editForm.timelineUnit}`
+            };
+            await API.put(`/projects/${id}`, payload);
+            setEditingProjectId(null);
+            fetchDashboardData();
+        } catch (err) {
+            console.error('Error updating project inline:', err);
+            alert('Failed to update project. Please try again.');
         }
     };
 
@@ -202,8 +261,20 @@ const AdminDashboard = () => {
         e.preventDefault();
         try {
             const reqArray = jobForm.requirements ? jobForm.requirements.split(',').map((r) => r.trim()) : [];
-            await API.post('/jobs', { ...jobForm, requirements: reqArray });
-            setJobForm({ title: '', description: '', requirements: '', salary: '', type: 'Full-time', location: 'On-site' });
+            const formatSalary = (val) => {
+                const num = Number(val);
+                return isNaN(num) ? val : num.toLocaleString();
+            };
+            const salaryStr = `$${formatSalary(jobForm.salaryMin)} - $${formatSalary(jobForm.salaryMax)} / ${jobForm.salaryPeriod}`;
+            await API.post('/jobs', { 
+                title: jobForm.title, 
+                description: jobForm.description, 
+                requirements: reqArray, 
+                salary: salaryStr, 
+                type: jobForm.type, 
+                location: jobForm.location 
+            });
+            setJobForm({ title: '', description: '', requirements: '', salaryMin: '', salaryMax: '', salaryPeriod: 'year', type: 'Full-time', location: 'On-site' });
             fetchDashboardData();
         } catch (e) {
             console.error('Error creating job:', e);
@@ -450,11 +521,40 @@ const AdminDashboard = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block font-semibold mb-1 text-neutral-400 uppercase tracking-wider">Budget Allocated</label>
-                                        <input type="text" required value={projectForm.budget} onChange={(e) => setProjectForm({ ...projectForm, budget: e.target.value })} placeholder="e.g. $12.5M" className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" />
+                                        <div className="relative flex items-center">
+                                            <span className="absolute left-3.5 text-neutral-400 font-semibold">$</span>
+                                            <input 
+                                                type="number" 
+                                                step="any"
+                                                required 
+                                                value={projectForm.budget} 
+                                                onChange={(e) => setProjectForm({ ...projectForm, budget: e.target.value })} 
+                                                placeholder="e.g. 12.5" 
+                                                className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl pl-8 pr-10 py-2.5 outline-none text-white transition-all font-light" 
+                                            />
+                                            <span className="absolute right-3.5 text-neutral-400 font-semibold">M</span>
+                                        </div>
                                     </div>
                                     <div>
                                         <label className="block font-semibold mb-1 text-neutral-400 uppercase tracking-wider">Time Horizon</label>
-                                        <input type="text" required value={projectForm.timeline} onChange={(e) => setProjectForm({ ...projectForm, timeline: e.target.value })} placeholder="e.g. 24 Months" className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" />
+                                        <div className="flex gap-2">
+                                            <input 
+                                                type="number" 
+                                                required 
+                                                value={projectForm.timelineValue} 
+                                                onChange={(e) => setProjectForm({ ...projectForm, timelineValue: e.target.value })} 
+                                                placeholder="e.g. 24" 
+                                                className="w-1/2 bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light text-center" 
+                                            />
+                                            <select 
+                                                value={projectForm.timelineUnit} 
+                                                onChange={(e) => setProjectForm({ ...projectForm, timelineUnit: e.target.value })} 
+                                                className="w-1/2 bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-3 py-2.5 outline-none text-white transition-all font-light"
+                                            >
+                                                <option value="Months">Months</option>
+                                                <option value="Years">Years</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -465,7 +565,14 @@ const AdminDashboard = () => {
                                     </div>
                                     <div>
                                         <label className="block font-semibold mb-1 text-neutral-400 uppercase tracking-wider">Progress %</label>
-                                        <input type="number" min="0" max="100" value={projectForm.progress} onChange={(e) => setProjectForm({ ...projectForm, progress: Number(e.target.value) })} className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" />
+                                        <input 
+                                            type="number" 
+                                            min="0" 
+                                            max="100" 
+                                            value={projectForm.progress} 
+                                            onChange={(e) => setProjectForm({ ...projectForm, progress: e.target.value === '' ? '' : Number(e.target.value) })} 
+                                            className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" 
+                                        />
                                     </div>
                                 </div>
 
@@ -524,24 +631,95 @@ const AdminDashboard = () => {
                                         <th className="pb-3">Project Title</th>
                                         <th className="pb-3">Category</th>
                                         <th className="pb-3">Budget</th>
+                                        <th className="pb-3">Status</th>
                                         <th className="pb-3">Progress</th>
+                                        <th className="pb-3">Time Horizon</th>
                                         <th className="pb-3 text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5 text-neutral-300">
-                                    {projects.map((proj) => (
-                                        <tr key={proj._id}>
-                                            <td className="py-4 font-bold">{proj.title}</td>
-                                            <td className="py-4 text-neutral-400">{proj.type}</td>
-                                            <td className="py-4 font-semibold">{proj.budget}</td>
-                                            <td className="py-4 font-bold text-gold">{proj.progress}%</td>
-                                            <td className="py-4 text-right">
-                                                <button onClick={() => handleProjectDelete(proj._id)} className="text-red-400 hover:text-red-500 hover:bg-red-500/10 p-1.5 rounded transition-all cursor-pointer">
-                                                    <Trash2 size={16} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {projects.map((proj) => {
+                                        const isEditing = editingProjectId === proj._id;
+                                        return isEditing ? (
+                                            <tr key={proj._id} className="bg-white/5">
+                                                <td className="py-4 font-bold">{proj.title}</td>
+                                                <td className="py-4 text-neutral-400">{proj.type}</td>
+                                                <td className="py-4 font-semibold">{proj.budget}</td>
+                                                <td className="py-4">
+                                                    <select 
+                                                        value={editForm.status} 
+                                                        onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
+                                                        className="bg-neutral-950 border border-white/10 rounded px-2 py-1 text-xs text-white outline-none focus:border-gold/50 cursor-pointer"
+                                                    >
+                                                        <option value="ongoing">Ongoing</option>
+                                                        <option value="completed">Completed</option>
+                                                    </select>
+                                                </td>
+                                                <td className="py-4 font-bold text-gold">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <input 
+                                                            type="number" 
+                                                            min="0" 
+                                                            max="100" 
+                                                            value={editForm.progress} 
+                                                            onChange={(e) => setEditForm({ ...editForm, progress: e.target.value === '' ? '' : Number(e.target.value) })}
+                                                            className="w-16 bg-neutral-950 border border-white/10 rounded px-2 py-1 text-xs text-white text-center outline-none focus:border-gold/50"
+                                                        />
+                                                        <span>%</span>
+                                                    </div>
+                                                </td>
+                                                <td className="py-4">
+                                                    <div className="flex items-center gap-1">
+                                                        <input 
+                                                            type="number" 
+                                                            required 
+                                                            value={editForm.timelineValue} 
+                                                            onChange={(e) => setEditForm({ ...editForm, timelineValue: e.target.value })}
+                                                            className="w-12 bg-neutral-950 border border-white/10 rounded px-1.5 py-1 text-xs text-white text-center outline-none focus:border-gold/50"
+                                                            placeholder="Val"
+                                                        />
+                                                        <select 
+                                                            value={editForm.timelineUnit} 
+                                                            onChange={(e) => setEditForm({ ...editForm, timelineUnit: e.target.value })}
+                                                            className="bg-neutral-950 border border-white/10 rounded px-1.5 py-1 text-xs text-white outline-none focus:border-gold/50 cursor-pointer"
+                                                        >
+                                                            <option value="Months">Months</option>
+                                                            <option value="Years">Years</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td className="py-4 text-right space-x-2">
+                                                    <button onClick={() => handleInlineSave(proj._id)} className="text-emerald-400 hover:text-emerald-500 hover:bg-emerald-500/10 p-1.5 rounded transition-all cursor-pointer inline-flex items-center" title="Save">
+                                                        <Check size={16} />
+                                                    </button>
+                                                    <button onClick={() => setEditingProjectId(null)} className="text-neutral-400 hover:text-neutral-500 hover:bg-neutral-500/10 p-1.5 rounded transition-all cursor-pointer inline-flex items-center" title="Cancel">
+                                                        <X size={16} />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            <tr key={proj._id}>
+                                                <td className="py-4 font-bold">{proj.title}</td>
+                                                <td className="py-4 text-neutral-400">{proj.type}</td>
+                                                <td className="py-4 font-semibold">{proj.budget}</td>
+                                                <td className="py-4">
+                                                    <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider text-white ${proj.status === 'completed' ? 'bg-emerald-500' : 'bg-gold'}`}>
+                                                        {proj.status}
+                                                    </span>
+                                                </td>
+                                                <td className="py-4 font-bold text-gold">{proj.progress}%</td>
+                                                <td className="py-4 text-neutral-300">{proj.timeline}</td>
+                                                <td className="py-4 text-right space-x-2">
+                                                    <button onClick={() => handleStartEdit(proj)} className="text-blue-400 hover:text-blue-500 hover:bg-blue-500/10 p-1.5 rounded transition-all cursor-pointer inline-flex items-center" title="Edit">
+                                                        <Edit3 size={16} />
+                                                    </button>
+                                                    <button onClick={() => handleProjectDelete(proj._id)} className="text-red-400 hover:text-red-500 hover:bg-red-500/10 p-1.5 rounded transition-all cursor-pointer inline-flex items-center" title="Delete">
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -698,7 +876,41 @@ const AdminDashboard = () => {
 
                                 <div>
                                     <label className="block font-semibold mb-1 text-neutral-400 uppercase tracking-wider">Salary Estimate Range</label>
-                                    <input type="text" required value={jobForm.salary} onChange={(e) => setJobForm({ ...jobForm, salary: e.target.value })} placeholder="e.g. $110,000 - $140,000 / year" className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-4 py-2.5 outline-none text-white transition-all font-light" />
+                                    <div className="flex flex-col sm:flex-row gap-2">
+                                        <div className="flex-1 flex gap-2">
+                                            <div className="relative flex-1 flex items-center">
+                                                <span className="absolute left-3.5 text-neutral-400 font-semibold">$</span>
+                                                <input 
+                                                    type="number" 
+                                                    required 
+                                                    value={jobForm.salaryMin} 
+                                                    onChange={(e) => setJobForm({ ...jobForm, salaryMin: e.target.value })} 
+                                                    placeholder="Min" 
+                                                    className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl pl-8 pr-3 py-2.5 outline-none text-white transition-all font-light text-center" 
+                                                />
+                                            </div>
+                                            <span className="text-neutral-500 self-center font-bold font-poppins">-</span>
+                                            <div className="relative flex-1 flex items-center">
+                                                <span className="absolute left-3.5 text-neutral-400 font-semibold">$</span>
+                                                <input 
+                                                    type="number" 
+                                                    required 
+                                                    value={jobForm.salaryMax} 
+                                                    onChange={(e) => setJobForm({ ...jobForm, salaryMax: e.target.value })} 
+                                                    placeholder="Max" 
+                                                    className="w-full bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl pl-8 pr-3 py-2.5 outline-none text-white transition-all font-light text-center" 
+                                                />
+                                            </div>
+                                        </div>
+                                        <select 
+                                            value={jobForm.salaryPeriod} 
+                                            onChange={(e) => setJobForm({ ...jobForm, salaryPeriod: e.target.value })} 
+                                            className="w-full sm:w-1/3 bg-neutral-950/50 border border-white/[0.08] focus:border-gold/50 focus:ring-1 focus:ring-gold/25 rounded-xl px-3 py-2.5 outline-none text-white transition-all font-light cursor-pointer"
+                                        >
+                                            <option value="month">per month</option>
+                                            <option value="year">per year</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div>
