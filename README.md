@@ -5,11 +5,6 @@ The project includes a modern public website and a secure admin dashboard for ma
 
 🚀 Live Demo
 Website: https://titancoreconstruct.netlify.app/
-Admin Panel: https://titancoreconstruct.netlify.app/admin/login
-Demo Login
-
-Email: admin@titancore.com
-Password: password123
 
 ✨ Features
 Modern responsive UI
