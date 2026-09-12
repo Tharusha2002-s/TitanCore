@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, User } from 'lucide-react';
 
 const LiveChat = () => {

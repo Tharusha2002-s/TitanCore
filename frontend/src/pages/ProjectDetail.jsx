@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MapPin, DollarSign, Calendar, ArrowLeft, Send, CheckCircle2, ChevronRight } from 'lucide-react';
+import { DollarSign, Calendar, ArrowLeft, Send, CheckCircle2, ChevronRight } from 'lucide-react';
 import API, { getImageUrl } from '../services/api';
 
 const ProjectDetail = () => {

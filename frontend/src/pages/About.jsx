@@ -1,5 +1,3 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { Award, Compass, Eye, ShieldCheck, Target, Users } from 'lucide-react';
 import aboutBg from '../assets/about/about.jpg';
 import ceoImg from '../assets/about/CEO Elena Rostova.jpg';
@@ -112,7 +110,7 @@ const About = () => {
                     </div>
 
                     <div className="relative border-l border-gold/30 pl-8 space-y-12">
-                        {timeline.map((item, index) => (
+                        {timeline.map((item) => (
                             <div key={item.year} className="relative">
                                 {/* Gold Circle Indicator */}
                                 <div className="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full bg-white border-2 border-gold flex items-center justify-center">

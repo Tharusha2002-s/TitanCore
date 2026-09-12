@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Home as HomeIcon, Building2, Paintbrush, HardHat, ShieldAlert, Compass, Hammer } from 'lucide-react';
 import servicesBg from '../assets/services/services.jpg';

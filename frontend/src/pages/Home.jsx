@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, Star, ChevronLeft, ChevronRight, Award, Shield, Cpu, Clock, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Award, Shield, Cpu, Clock } from 'lucide-react';
 import API, { getImageUrl } from '../services/api';
 import home1 from '../assets/home/home_1.jpg';
 import home2 from '../assets/home/home_2.jpg';
@@ -13,8 +13,8 @@ import renovationOverhauls from '../assets/home/Renovation_Overhauls.jpg';
 
 const AnimatedCounter = ({ target, suffix = '', duration = 2000 }) => {
     const [count, setCount] = useState(0);
-    const elementRef = React.useRef(null);
-    const hasAnimated = React.useRef(false);
+    const elementRef = useRef(null);
+    const hasAnimated = useRef(false);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -85,7 +85,7 @@ const Home = () => {
             setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
         }, 9000);
         return () => clearInterval(timer);
-    }, []);
+    }, [heroSlides.length]);
 
     // Load home page data
     useEffect(() => {

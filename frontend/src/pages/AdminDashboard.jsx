@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    Users, Hammer, Briefcase, FileText, Mail, Plus, Trash2, Edit3, Check, X,
-    TrendingUp, Settings, BarChart2, ShieldCheck, LogOut, CheckCircle2, ChevronRight,
+    Hammer, Briefcase, FileText, Mail, Plus, Trash2, Edit3, Check, X,
+    TrendingUp, BarChart2, LogOut,
     Image, Loader2, Menu
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import API, { getImageUrl } from '../services/api';
 import adminAvatar from '../assets/admin/avatar.jpg';
 import logoImg from '../assets/logo.png';
@@ -82,7 +82,10 @@ const AdminDashboard = () => {
         if (!user) {
             navigate('/admin/login');
         } else if (user.role === 'admin') {
-            fetchDashboardData();
+            const loadDashboardData = async () => {
+                await fetchDashboardData();
+            };
+            loadDashboardData();
         }
     }, [user, navigate]);
 

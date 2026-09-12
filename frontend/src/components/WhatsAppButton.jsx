@@ -1,6 +1,3 @@
-import React from 'react';
-import { MessageSquare } from 'lucide-react';
-
 const WhatsAppButton = () => {
     const phoneNumber = '94788788208'; // Replace with company number
     const message = 'Hello TitanCore Construction, I would like to get a quote for a construction project.';

@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [openPath, setOpenPath] = useState(null);
     const location = useLocation();
+    const isOpen = openPath === location.pathname;
 
     // Watch scroll positions
     useEffect(() => {
@@ -20,11 +21,6 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    // Close mobile drawer on route change
-    useEffect(() => {
-        setIsOpen(false);
-    }, [location]);
 
     const navLinks = [
         { name: 'About', path: '/about' },
@@ -98,7 +94,7 @@ const Navbar = () => {
 
                 {/* Mobile Hamburger */}
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setOpenPath(isOpen ? null : location.pathname)}
                     className={`lg:hidden transition-colors duration-500 ${
                         isScrolled ? 'text-neutral-800 hover:text-gold' : 'text-white/95 hover:text-gold'
                     }`}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle2, Clock } from 'lucide-react';
 import API from '../services/api';
 import contactBg from '../assets/contact/contact.jpg';

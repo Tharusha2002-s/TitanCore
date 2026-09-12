@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Briefcase, MapPin, DollarSign, CheckCircle2, X, FileText, User, Mail } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Briefcase, MapPin, DollarSign, CheckCircle2, X, User, Mail } from 'lucide-react';
 import API, { getBackendUrl } from '../services/api';
 import careersBg from '../assets/careers/careers.jpg';
 
 const Careers = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
 
     // Application Modal States
     const [selectedJob, setSelectedJob] = useState(null);
@@ -36,7 +34,10 @@ const Careers = () => {
     };
 
     useEffect(() => {
-        fetchJobs();
+        const loadJobs = async () => {
+            await fetchJobs();
+        };
+        loadJobs();
     }, []);
 
     const handleApplyClick = (job) => {
