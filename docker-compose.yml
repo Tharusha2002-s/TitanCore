@@ -1,0 +1,14 @@
+services:
+  backend:
+    image: titancore-backend:1.0
+    container_name: titancore-backend-compose
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    image: titancore-frontend:1.0
+    container_name: titancore-frontend-compose
+    ports:
+      - "3000:80"
