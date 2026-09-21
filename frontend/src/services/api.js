@@ -1,7 +1,36 @@
 import axios from 'axios';
 
-const API_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Normalize the backend API URL to guarantee it ends with /api and has proper protocol
+const getNormalizedApiUrl = (url) => {
+  let normalized = (url || '').trim();
+
+  if (!normalized) {
+    return 'http://localhost:5000/api';
+  }
+
+  // Remove trailing slashes
+  normalized = normalized.replace(/\/+$/, '');
+
+  // Ensure valid HTTP/HTTPS protocol
+  if (!normalized.startsWith('http://') && !normalized.startsWith('https://')) {
+    if (normalized.includes('localhost') || normalized.includes('127.0.0.1')) {
+      normalized = `http://${normalized}`;
+    } else {
+      normalized = `https://${normalized}`;
+    }
+  }
+
+  // Ensure /api suffix is present
+  if (!normalized.endsWith('/api')) {
+    normalized = `${normalized}/api`;
+  }
+
+  return normalized;
+};
+
+const API_URL = getNormalizedApiUrl(
+  import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+);
 
 const API = axios.create({
   baseURL: API_URL,
@@ -13,10 +42,16 @@ const API = axios.create({
 // Attach JWT token if user is logged in
 API.interceptors.request.use(
   (config) => {
-    const user = JSON.parse(localStorage.getItem('userInfo'));
-
-    if (user && user.token) {
-      config.headers.Authorization = `Bearer ${user.token}`;
+    try {
+      const stored = localStorage.getItem('userInfo');
+      if (stored) {
+        const user = JSON.parse(stored);
+        if (user && user.token) {
+          config.headers.Authorization = `Bearer ${user.token}`;
+        }
+      }
+    } catch {
+      // Ignore JSON parse errors if localStorage is corrupted
     }
 
     return config;

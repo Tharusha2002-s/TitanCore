@@ -39,7 +39,7 @@ app.use(cors());
 // Serve static upload files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Mount routers
+// Mount routers under /api (standard REST endpoints)
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/jobs', jobRoutes);
@@ -47,6 +47,15 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/gallery', galleryRoutes);
+
+// Also mount routers without /api prefix for compatibility with frontends or reverse proxies missing /api in baseUrl
+app.use('/auth', authRoutes);
+app.use('/projects', projectRoutes);
+app.use('/jobs', jobRoutes);
+app.use('/applications', applicationRoutes);
+app.use('/messages', messageRoutes);
+app.use('/upload', uploadRoutes);
+app.use('/gallery', galleryRoutes);
 
 // Health check / welcome route
 app.get('/', (req, res) => {
