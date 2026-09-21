@@ -11,9 +11,18 @@ const getNormalizedApiUrl = (url) => {
   // Remove trailing slashes
   normalized = normalized.replace(/\/+$/, '');
 
-  // Ensure valid HTTP/HTTPS protocol
-  if (!normalized.startsWith('http://') && !normalized.startsWith('https://')) {
-    if (normalized.includes('localhost') || normalized.includes('127.0.0.1')) {
+  // Fix common protocol typos: missing colon like "http//" or "https//", or "http:/"
+  if (/^http\/\//i.test(normalized)) {
+    normalized = normalized.replace(/^http\/\//i, 'http://');
+  } else if (/^https\/\//i.test(normalized)) {
+    normalized = normalized.replace(/^https\/\//i, 'https://');
+  } else if (/^http:\/(?!\/)/i.test(normalized)) {
+    normalized = normalized.replace(/^http:\//i, 'http://');
+  } else if (/^https:\/(?!\/)/i.test(normalized)) {
+    normalized = normalized.replace(/^https:\//i, 'https://');
+  } else if (!normalized.startsWith('http://') && !normalized.startsWith('https://')) {
+    // If it starts with an IP address or localhost, default to http://
+    if (normalized.includes('localhost') || normalized.includes('127.0.0.1') || /^\d+\.\d+\.\d+\.\d+/.test(normalized)) {
       normalized = `http://${normalized}`;
     } else {
       normalized = `https://${normalized}`;

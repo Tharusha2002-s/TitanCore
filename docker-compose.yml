@@ -1,5 +1,8 @@
 services:
   backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     image: titancore-backend:1.0
     container_name: titancore-backend-compose
     ports:
@@ -8,6 +11,11 @@ services:
       - ./backend/.env
 
   frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://178.105.30.16:5000/api
     image: titancore-frontend:1.0
     container_name: titancore-frontend-compose
     ports:
