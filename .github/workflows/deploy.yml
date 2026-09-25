@@ -27,5 +27,12 @@ jobs:
             docker build -t titancore-frontend:1.0 ./frontend
 
             docker compose up -d --force-recreate
+            echo "Checking backend API..."
+
+            sleep 5
+
+            curl --fail http://localhost:5000/api/projects
+
+            echo "Backend API is healthy."
 
             docker image prune -f
