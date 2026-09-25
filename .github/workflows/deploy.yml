@@ -1,0 +1,29 @@
+name: TitanCore CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Hetzner
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          script: |
+            cd /opt/titancore
+
+            git pull origin main
+
+            docker build -t titancore-backend:1.0 ./backend
+            docker build -t titancore-frontend:1.0 ./frontend
+
+            docker compose up -d --force-recreate
+
+            docker image prune -f
