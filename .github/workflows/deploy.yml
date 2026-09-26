@@ -24,7 +24,7 @@ jobs:
             git pull origin main
 
             docker build -t titancore-backend:1.0 ./backend
-            docker build -t titancore-frontend:1.0 ./frontend
+            docker build --build-arg VITE_API_URL=http://178.105.30.16:5000/api -t titancore-frontend:1.0 ./frontend
 
             docker compose up -d --force-recreate
             echo "Checking backend API..."
