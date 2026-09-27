@@ -18,21 +18,52 @@ jobs:
           host: ${{ secrets.HETZNER_HOST }}
           username: ${{ secrets.HETZNER_USER }}
           key: ${{ secrets.HETZNER_SSH_KEY }}
+
           script: |
+            set -e
+
             cd /opt/titancore
 
+            echo "Pulling latest code..."
             git pull origin main
 
+            echo "Saving current images for rollback..."
+            docker tag titancore-backend:1.0 titancore-backend:previous
+            docker tag titancore-frontend:1.0 titancore-frontend:previous
+
+            rollback() {
+              echo "Deployment failed. Starting rollback..."
+
+              docker tag titancore-backend:previous titancore-backend:1.0
+              docker tag titancore-frontend:previous titancore-frontend:1.0
+
+              docker compose up -d --force-recreate
+
+              echo "Rollback completed."
+            }
+
+            trap rollback ERR
+
+            echo "Building new backend image..."
             docker build -t titancore-backend:1.0 ./backend
-            docker build --build-arg VITE_API_URL=http://178.105.30.16:5000/api -t titancore-frontend:1.0 ./frontend
 
+            echo "Building new frontend image..."
+            docker build \
+              --build-arg VITE_API_URL=http://178.105.30.16:5000/api \
+              -t titancore-frontend:1.0 ./frontend
+
+            echo "Deploying new version..."
             docker compose up -d --force-recreate
-            echo "Checking backend API..."
 
+            echo "Waiting for services..."
             sleep 5
 
+            echo "Checking backend API..."
             curl --fail http://localhost:5000/api/projects
 
-            echo "Backend API is healthy."
+            echo "Checking frontend..."
+            curl --fail http://localhost:3000
+
+            echo "Deployment successful."
 
             docker image prune -f
